@@ -1,0 +1,4 @@
+# AgentScope Global Configuration
+use_docker: false  # Ensure code execution runs in the local environment, not a sandbox/container
+logging_level: INFO
+studio_url: http://localhost:5000

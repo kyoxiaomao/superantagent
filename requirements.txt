@@ -1,0 +1,5 @@
+agentscope
+Pillow
+tk
+python-dotenv
+PyYAML
