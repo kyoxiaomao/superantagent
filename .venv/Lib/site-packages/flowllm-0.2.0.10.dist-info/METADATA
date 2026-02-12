@@ -1,0 +1,497 @@
+Metadata-Version: 2.4
+Name: flowllm
+Version: 0.2.0.10
+Summary: FlowLLM: Simplifying LLM-based HTTP/MCP Service Development
+Author-email: "jinli.yl" <jinli.yl@alibaba-inc.com>
+License:                                  Apache License
+                                   Version 2.0, January 2004
+                                http://www.apache.org/licenses/
+        
+           TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+        
+           1. Definitions.
+        
+              "License" shall mean the terms and conditions for use, reproduction,
+              and distribution as defined by Sections 1 through 9 of this document.
+        
+              "Licensor" shall mean the copyright owner or entity authorized by
+              the copyright owner that is granting the License.
+        
+              "Legal Entity" shall mean the union of the acting entity and all
+              other entities that control, are controlled by, or are under common
+              control with that entity. For the purposes of this definition,
+              "control" means (i) the power, direct or indirect, to cause the
+              direction or management of such entity, whether by contract or
+              otherwise, or (ii) ownership of fifty percent (50%) or more of the
+              outstanding shares, or (iii) beneficial ownership of such entity.
+        
+              "You" (or "Your") shall mean an individual or Legal Entity
+              exercising permissions granted by this License.
+        
+              "Source" form shall mean the preferred form for making modifications,
+              including but not limited to software source code, documentation
+              source, and configuration files.
+        
+              "Object" form shall mean any form resulting from mechanical
+              transformation or translation of a Source form, including but
+              not limited to compiled object code, generated documentation,
+              and conversions to other media types.
+        
+              "Work" shall mean the work of authorship, whether in Source or
+              Object form, made available under the License, as indicated by a
+              copyright notice that is included in or attached to the work
+              (an example is provided in the Appendix below).
+        
+              "Derivative Works" shall mean any work, whether in Source or Object
+              form, that is based on (or derived from) the Work and for which the
+              editorial revisions, annotations, elaborations, or other modifications
+              represent, as a whole, an original work of authorship. For the purposes
+              of this License, Derivative Works shall not include works that remain
+              separable from, or merely link (or bind by name) to the interfaces of,
+              the Work and Derivative Works thereof.
+        
+              "Contribution" shall mean any work of authorship, including
+              the original version of the Work and any modifications or additions
+              to that Work or Derivative Works thereof, that is intentionally
+              submitted to Licensor for inclusion in the Work by the copyright owner
+              or by an individual or Legal Entity authorized to submit on behalf of
+              the copyright owner. For the purposes of this definition, "submitted"
+              means any form of electronic, verbal, or written communication sent
+              to the Licensor or its representatives, including but not limited to
+              communication on electronic mailing lists, source code control systems,
+              and issue tracking systems that are managed by, or on behalf of, the
+              Licensor for the purpose of discussing and improving the Work, but
+              excluding communication that is conspicuously marked or otherwise
+              designated in writing by the copyright owner as "Not a Contribution."
+        
+              "Contributor" shall mean Licensor and any individual or Legal Entity
+              on behalf of whom a Contribution has been received by Licensor and
+              subsequently incorporated within the Work.
+        
+           2. Grant of Copyright License. Subject to the terms and conditions of
+              this License, each Contributor hereby grants to You a perpetual,
+              worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+              copyright license to reproduce, prepare Derivative Works of,
+              publicly display, publicly perform, sublicense, and distribute the
+              Work and such Derivative Works in Source or Object form.
+        
+           3. Grant of Patent License. Subject to the terms and conditions of
+              this License, each Contributor hereby grants to You a perpetual,
+              worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+              (except as stated in this section) patent license to make, have made,
+              use, offer to sell, sell, import, and otherwise transfer the Work,
+              where such license applies only to those patent claims licensable
+              by such Contributor that are necessarily infringed by their
+              Contribution(s) alone or by combination of their Contribution(s)
+              with the Work to which such Contribution(s) was submitted. If You
+              institute patent litigation against any entity (including a
+              cross-claim or counterclaim in a lawsuit) alleging that the Work
+              or a Contribution incorporated within the Work constitutes direct
+              or contributory patent infringement, then any patent licenses
+              granted to You under this License for that Work shall terminate
+              as of the date such litigation is filed.
+        
+           4. Redistribution. You may reproduce and distribute copies of the
+              Work or Derivative Works thereof in any medium, with or without
+              modifications, and in Source or Object form, provided that You
+              meet the following conditions:
+        
+              (a) You must give any other recipients of the Work or
+                  Derivative Works a copy of this License; and
+        
+              (b) You must cause any modified files to carry prominent notices
+                  stating that You changed the files; and
+        
+              (c) You must retain, in the Source form of any Derivative Works
+                  that You distribute, all copyright, patent, trademark, and
+                  attribution notices from the Source form of the Work,
+                  excluding those notices that do not pertain to any part of
+                  the Derivative Works; and
+        
+              (d) If the Work includes a "NOTICE" text file as part of its
+                  distribution, then any Derivative Works that You distribute must
+                  include a readable copy of the attribution notices contained
+                  within such NOTICE file, excluding those notices that do not
+                  pertain to any part of the Derivative Works, in at least one
+                  of the following places: within a NOTICE text file distributed
+                  as part of the Derivative Works; within the Source form or
+                  documentation, if provided along with the Derivative Works; or,
+                  within a display generated by the Derivative Works, if and
+                  wherever such third-party notices normally appear. The contents
+                  of the NOTICE file are for informational purposes only and
+                  do not modify the License. You may add Your own attribution
+                  notices within Derivative Works that You distribute, alongside
+                  or as an addendum to the NOTICE text from the Work, provided
+                  that such additional attribution notices cannot be construed
+                  as modifying the License.
+        
+              You may add Your own copyright statement to Your modifications and
+              may provide additional or different license terms and conditions
+              for use, reproduction, or distribution of Your modifications, or
+              for any such Derivative Works as a whole, provided Your use,
+              reproduction, and distribution of the Work otherwise complies with
+              the conditions stated in this License.
+        
+           5. Submission of Contributions. Unless You explicitly state otherwise,
+              any Contribution intentionally submitted for inclusion in the Work
+              by You to the Licensor shall be under the terms and conditions of
+              this License, without any additional terms or conditions.
+              Notwithstanding the above, nothing herein shall supersede or modify
+              the terms of any separate license agreement you may have executed
+              with Licensor regarding such Contributions.
+        
+           6. Trademarks. This License does not grant permission to use the trade
+              names, trademarks, service marks, or product names of the Licensor,
+              except as required for reasonable and customary use in describing the
+              origin of the Work and reproducing the content of the NOTICE file.
+        
+           7. Disclaimer of Warranty. Unless required by applicable law or
+              agreed to in writing, Licensor provides the Work (and each
+              Contributor provides its Contributions) on an "AS IS" BASIS,
+              WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+              implied, including, without limitation, any warranties or conditions
+              of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+              PARTICULAR PURPOSE. You are solely responsible for determining the
+              appropriateness of using or redistributing the Work and assume any
+              risks associated with Your exercise of permissions under this License.
+        
+           8. Limitation of Liability. In no event and under no legal theory,
+              whether in tort (including negligence), contract, or otherwise,
+              unless required by applicable law (such as deliberate and grossly
+              negligent acts) or agreed to in writing, shall any Contributor be
+              liable to You for damages, including any direct, indirect, special,
+              incidental, or consequential damages of any character arising as a
+              result of this License or out of the use or inability to use the
+              Work (including but not limited to damages for loss of goodwill,
+              work stoppage, computer failure or malfunction, or any and all
+              other commercial damages or losses), even if such Contributor
+              has been advised of the possibility of such damages.
+        
+           9. Accepting Warranty or Additional Liability. While redistributing
+              the Work or Derivative Works thereof, You may choose to offer,
+              and charge a fee for, acceptance of support, warranty, indemnity,
+              or other liability obligations and/or rights consistent with this
+              License. However, in accepting such obligations, You may act only
+              on Your own behalf and on Your sole responsibility, not on behalf
+              of any other Contributor, and only if You agree to indemnify,
+              defend, and hold each Contributor harmless for any liability
+              incurred by, or claims asserted against, such Contributor by reason
+              of your accepting any such warranty or additional liability.
+        
+           END OF TERMS AND CONDITIONS
+        
+           APPENDIX: How to apply the Apache License to your work.
+        
+              To apply the Apache License to your work, attach the following
+              boilerplate notice, with the fields enclosed by brackets "[]"
+              replaced with your own identifying information. (Don't include
+              the brackets!)  The text should be enclosed in the appropriate
+              comment syntax for the file format. We also recommend that a
+              file or class name and description of purpose be included on the
+              same "printed page" as the copyright notice for easier
+              identification within third-party archives.
+        
+           Copyright 2024 FlowLLM
+        
+           Licensed under the Apache License, Version 2.0 (the "License");
+           you may not use this file except in compliance with the License.
+           You may obtain a copy of the License at
+        
+               http://www.apache.org/licenses/LICENSE-2.0
+        
+           Unless required by applicable law or agreed to in writing, software
+           distributed under the License is distributed on an "AS IS" BASIS,
+           WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+           See the License for the specific language governing permissions and
+           limitations under the License.
+        
+Project-URL: Homepage, https://github.com/flowllm-ai/flowllm
+Project-URL: Documentation, https://flowllm-ai.github.io/flowllm/
+Project-URL: Repository, https://github.com/flowllm-ai/flowllm
+Keywords: llm,ai,flow,framework,openai,chatgpt,language-model,mcp,http
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Software Development :: Libraries :: Application Frameworks
+Classifier: Typing :: Typed
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: dashscope>=1.13.0
+Requires-Dist: fastapi>=0.104.0
+Requires-Dist: fastmcp>=0.1.0
+Requires-Dist: httpx>=0.25.0
+Requires-Dist: loguru>=0.7.0
+Requires-Dist: numpy>=1.24.0
+Requires-Dist: pandas>=2.0.0
+Requires-Dist: openai>=1.3.0
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: PyYAML>=6.0.0
+Requires-Dist: requests>=2.31.0
+Requires-Dist: tqdm>=4.66.0
+Requires-Dist: urllib3>=2.0.0
+Requires-Dist: uvicorn[standard]>=0.23.0
+Requires-Dist: pyfiglet>=0.8.0
+Requires-Dist: rich>=13.5.0
+Requires-Dist: pathspec>=0.12.1
+Requires-Dist: litellm>=1.0.0
+Requires-Dist: tavily-python>=0.2.0
+Provides-Extra: dev
+Requires-Dist: pytest>=8.4.2; extra == "dev"
+Requires-Dist: pytest_asyncio>=1.2.0; extra == "dev"
+Requires-Dist: pre-commit; extra == "dev"
+Requires-Dist: mkdocs-shadcn; extra == "dev"
+Requires-Dist: pipreqs; extra == "dev"
+Provides-Extra: reme
+Requires-Dist: elasticsearch>=8.10.0; extra == "reme"
+Requires-Dist: chromadb>=0.4.0; extra == "reme"
+Requires-Dist: qdrant_client>=1.15.1; extra == "reme"
+Requires-Dist: pgvector>=0.4.2; extra == "reme"
+Provides-Extra: fin
+Requires-Dist: akshare>=1.9.0; extra == "fin"
+Requires-Dist: crawl4ai>=0.7.4; extra == "fin"
+Provides-Extra: token
+Requires-Dist: transformers>=4.35.0; extra == "token"
+Requires-Dist: tiktoken>=0.5.0; extra == "token"
+Provides-Extra: skill
+Provides-Extra: full
+Requires-Dist: flowllm[dev,fin,reme,skill,token]; extra == "full"
+Dynamic: license-file
+
+<p align="center">
+  <img src="docs/figure/logo.png" alt="FlowLLM Logo" width="50%">
+</p>
+
+<p align="center">
+  <strong>FlowLLM: Simplifying LLM-based HTTP/MCP Service Development</strong><br>
+  <em><sub>If you find it useful, please give us a ⭐ Star. Your support drives our continuous improvement.</sub></em>
+</p>
+
+<p align="center">
+  <a href="https://pypi.org/project/flowllm/"><img src="https://img.shields.io/badge/python-3.10+-blue" alt="Python Version"></a>
+  <a href="https://pypi.org/project/flowllm/"><img src="https://img.shields.io/badge/pypi-0.2.0.0-blue?logo=pypi" alt="PyPI Version"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0-black" alt="License"></a>
+  <a href="https://github.com/flowllm-ai/flowllm"><img src="https://img.shields.io/github/stars/flowllm-ai/flowllm?style=social" alt="GitHub Stars"></a>
+</p>
+
+<p align="center">
+  English | <a href="./README_ZH.md">简体中文</a>
+</p>
+
+---
+
+## 📖 Introduction
+
+FlowLLM encapsulates LLM, Embedding, and vector_store capabilities as HTTP/MCP services. It is suitable for AI assistants, RAG applications, and workflow services, and can be integrated into MCP-compatible client tools.
+
+### 🏗️ Architecture Overview
+
+<p align="center">
+  <img src="docs/figure/framework.png" alt="FlowLLM Framework" width="100%">
+</p>
+
+### 🌟 Applications Based on FlowLLM
+
+| Project Name                                  | Description                          |
+|-----------------------------------------------|--------------------------------------|
+| [ReMe](https://github.com/agentscope-ai/ReMe) | Memory management toolkit for agents |
+
+### 📢 Recent Updates
+
+| Date       | Update Content                                                                                                                                                                                                                                                            |
+|------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 2025-11-15 | Added [File Tool Op](docs/zh/guide/file_tool_op_guide.md) feature with 13 file operation tools, supporting file reading, writing, editing, searching, directory operations, system command execution, and task management                                                 |
+| 2025-11-14 | Added Token counting capability, supporting accurate calculation of token counts for messages and tools via `self.token_count()` method, with support for multiple backends (base, openai, hf). See configuration examples in [default.yaml](flowllm/config/default.yaml) |
+
+### 📚 Learning Resources
+
+Project developers will share their latest learning materials here.
+
+| Date       | Title                                                                                                  | Description                                                                       |
+|------------|--------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| 2025-11-24 | [Mem-PAL: Memory-Augmented Personalized Assistant](./docs/zh/reading/20251124-mem-pal.md)              | Mem-PAL: Memory-Augmented Personalized Assistant with Log-based Structured Memory |
+| 2025-11-14 | [HaluMem Analysis](./docs/zh/reading/20251114-halumem.md)                                              | HaluMem: Evaluating Hallucinations in Memory Systems of Agents Analysis           |
+| 2025-11-13 | [Gemini CLI Context Management Mechanism](./docs/zh/reading/20251113-gemini-cli-context-management.md) | Multi-layer Context Management Strategy for Gemini CLI                            |
+| 2025-11-10 | [Context Management Guide](./docs/zh/reading/20251110-manus-context-report.md)                         | Context Management Guide                                                          |
+| 2025-11-10 | [LangChain&Manus Video Materials](./docs/zh/reading/20251110-manus-context-raw.md)                     | LangChain & Manus Context Management Video                                        |
+
+### ⭐ Core Features
+
+- **Simple Op Development**: Inherit from `BaseOp` or `BaseAsyncOp` and implement your business logic. FlowLLM provides lazy-initialized LLM, Embedding models, and vector stores accessible via `self.llm`, `self.embedding_model`, and `self.vector_store`. It also offers prompt template management through `prompt_format()` and `get_prompt()` methods. Additionally, FlowLLM includes built-in token counting capabilities. Use `self.token_count()` to accurately calculate token counts for messages and tools, supporting multiple backends (base, openai, hf, etc.).
+
+- **Flexible Flow Orchestration**: Compose Ops into Flows via YAML configuration. `>>` denotes serial composition; `|` denotes parallel composition. For example, `SearchOp() >> (AnalyzeOp() | TranslateOp()) >> FormatOp()` builds complex workflows. Define input/output schemas and start the service with `flowllm config=your_config`.
+
+- **Automatic Service Generation**: FlowLLM automatically generates HTTP, MCP, and CMD services. The HTTP service provides RESTful APIs with synchronous JSON and HTTP Stream responses. The MCP service registers as Model Context Protocol tools for MCP-compatible clients. The CMD service executes a single Op in command-line mode for quick testing and debugging.
+
+---
+
+## ⚡ Quick Start
+
+### 📦 Step0 Installation
+
+#### 📥 From PyPI
+
+```bash
+pip install flowllm
+```
+
+#### 🔧 From Source
+
+```bash
+git clone https://github.com/flowllm-ai/flowllm.git
+cd flowllm
+pip install -e .
+```
+
+For detailed installation and configuration, refer to the [Installation Guide](docs/zh/guide/installation.md).
+
+### ⚙️ Configuration
+
+Create a `.env` file and configure your API keys. Copy from `example.env` and modify:
+
+```bash
+cp example.env .env
+```
+
+Configure your API keys in the `.env` file:
+
+```bash
+FLOW_LLM_API_KEY=sk-xxxx
+FLOW_LLM_BASE_URL=https://xxxx/v1
+FLOW_EMBEDDING_API_KEY=sk-xxxx
+FLOW_EMBEDDING_BASE_URL=https://xxxx/v1
+```
+
+For detailed configuration, refer to the [Configuration Guide](docs/zh/guide/config_guide.md).
+
+### 🛠️ Step1 Build Op
+
+```python
+from flowllm.core.context import C
+from flowllm.core.op import BaseAsyncOp
+from flowllm.core.schema import Message
+from flowllm.core.enumeration import Role
+
+@C.register_op()
+class SimpleChatOp(BaseAsyncOp):
+    async def async_execute(self):
+        query = self.context.get("query", "")
+        messages = [Message(role=Role.USER, content=query)]
+
+        # Use token_count method to calculate token count
+        token_num = self.token_count(messages)
+        print(f"Input tokens: {token_num}")
+
+        response = await self.llm.achat(messages=messages)
+        self.context.response.answer = response.content.strip()
+```
+
+For details, refer to the [Simple Op Guide](docs/zh/guide/async_op_minimal_guide.md), [LLM Op Guide](docs/zh/guide/async_op_llm_guide.md), and [Advanced Op Guide](docs/zh/guide/async_op_advance_guide.md) (including Embedding, VectorStore, and concurrent execution).
+
+### 📝 Step2 Configure Config
+
+The following example demonstrates building an MCP (Model Context Protocol) service. Create a configuration file `my_mcp_config.yaml`:
+
+```yaml
+backend: mcp
+
+mcp:
+  transport: sse
+  host: "0.0.0.0"
+  port: 8001
+
+flow:
+  demo_mcp_flow:
+    flow_content: MockSearchOp()
+    description: "Search results for a given query."
+    input_schema:
+      query:
+        type: string
+        description: "User query"
+        required: true
+
+llm:
+  default:
+    backend: openai_compatible
+    model_name: qwen3-30b-a3b-instruct-2507
+    params:
+      temperature: 0.6
+    token_count: # Optional, configure token counting backend
+      model_name: Qwen/Qwen3-30B-A3B-Instruct-2507
+      backend: hf  # Supports base, openai, hf, etc.
+      params:
+        use_mirror: true
+```
+
+### 🚀 Step3 Start MCP Service
+
+```bash
+flowllm \
+  config=my_mcp_config \
+  backend=mcp \  # Optional, overrides config
+  mcp.transport=sse \  # Optional, overrides config
+  mcp.port=8001 \  # Optional, overrides config
+  llm.default.model_name=qwen3-30b-a3b-thinking-2507  # Optional, overrides config
+```
+
+After the service starts, refer to the [Client Guide](docs/zh/guide/client_guide.md) to use the service and obtain the tool_call required by the model.
+
+---
+
+## 📚 Detailed Documentation
+
+### 🚀 Getting Started
+- [Installation Guide](docs/zh/guide/installation.md)
+- [Configuration Guide](docs/zh/guide/config_guide.md)
+
+### 🔧 Op Development
+- [Op Introduction](docs/zh/guide/op_introduction.md)
+- [Simple Op Guide](docs/zh/guide/async_op_minimal_guide.md)
+- [LLM Op Guide](docs/zh/guide/async_op_llm_guide.md)
+- [Advanced Op Guide](docs/zh/guide/async_op_advance_guide.md)
+- [Tool Op Guide](docs/zh/guide/async_tool_op_guide.md)
+- [File Tool Op Guide](docs/zh/guide/file_tool_op_guide.md)
+- [Vector Store Guide](docs/zh/guide/vector_store_guide.md)
+
+### 🔀 Flow Orchestration
+- [Flow Guide](docs/zh/guide/flow_guide.md)
+
+### 🌐 Service Usage
+- [HTTP Service Guide](docs/zh/guide/http_service_guide.md)
+- [HTTP Stream Guide](docs/zh/guide/http_stream_guide.md)
+- [MCP Service Guide](docs/zh/guide/mcp_service_guide.md)
+- [CMD Service Guide](docs/zh/guide/cmd_service_guide.md)
+- [Client Guide](docs/zh/guide/client_guide.md)
+
+---
+
+## 🤝 Contributing
+
+Contributions of all forms are welcome! For participation methods, refer to the [Contribution Guide](docs/zh/guide/contribution.md).
+
+---
+
+## 📄 License
+
+This project is licensed under the [Apache 2.0](LICENSE) license.
+
+---
+
+## Star 历史
+
+[![Star History Chart](https://api.star-history.com/svg?repos=flowllm-ai/flowllm&type=Date)](https://www.star-history.com/#flowllm-ai/flowllm&Date)
+
+---
+
+<p align="center">
+  <a href="https://github.com/flowllm-ai/flowllm">GitHub</a> •
+  <a href="https://flowllm-ai.github.io/flowllm/">Documentation</a> •
+  <a href="https://pypi.org/project/flowllm/">PyPI</a>
+</p>
+

@@ -1,0 +1,7 @@
+agentscope
+Pillow
+tk
+python-dotenv
+PyYAML
+reme-ai
+chromadb

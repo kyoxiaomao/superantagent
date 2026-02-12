@@ -1,0 +1,78 @@
+king:
+  name: 蚁王
+  max_iters: 8
+  model_provider: llm
+  heartbeat:
+    enabled: true
+    interval_s: 5.0
+    idle_no_increment_s: 0.0
+    topic_cooldown_s: 180.0
+    topic_active_s: 300.0
+    topic_decision_min_gap_s: 30.0
+    topic_turn_interval_s: 4.0
+    history_window_n: 30
+queen:
+  name: 蚁后
+  max_iters: 8
+  model_provider: llm
+  heartbeat:
+    enabled: true
+    interval_s: 1.0
+    idle_no_increment_s: 0.0
+    topic_cooldown_s: 180.0
+    topic_active_s: 300.0
+    topic_decision_min_gap_s: 30.0
+    topic_turn_interval_s: 4.0
+    history_window_n: 30
+soldier:
+  name: 兵蚁
+  max_iters: 6
+  model_provider: llm
+  heartbeat:
+    enabled: true
+    interval_s: 5.0
+    idle_no_increment_s: 0.0
+    topic_cooldown_s: 180.0
+    topic_active_s: 300.0
+    topic_decision_min_gap_s: 30.0
+    topic_turn_interval_s: 4.0
+    history_window_n: 30
+emotion_worker:
+  name: 情感工蚁
+  max_iters: 6
+  model_provider: llm
+  heartbeat:
+    enabled: true
+    interval_s: 5.0
+    idle_no_increment_s: 0.0
+    topic_cooldown_s: 180.0
+    topic_active_s: 300.0
+    topic_decision_min_gap_s: 30.0
+    topic_turn_interval_s: 4.0
+    history_window_n: 30
+browser_worker:
+  name: 浏览器工蚁
+  max_iters: 8
+  model_provider: llm
+  heartbeat:
+    enabled: true
+    interval_s: 5.0
+    idle_no_increment_s: 0.0
+    topic_cooldown_s: 180.0
+    topic_active_s: 300.0
+    topic_decision_min_gap_s: 30.0
+    topic_turn_interval_s: 4.0
+    history_window_n: 30
+doc_worker:
+  name: 文档工蚁
+  max_iters: 8
+  model_provider: llm
+  heartbeat:
+    enabled: true
+    interval_s: 5.0
+    idle_no_increment_s: 0.0
+    topic_cooldown_s: 180.0
+    topic_active_s: 300.0
+    topic_decision_min_gap_s: 30.0
+    topic_turn_interval_s: 4.0
+    history_window_n: 30
