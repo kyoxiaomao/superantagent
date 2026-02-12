@@ -1,7 +1,0 @@
-glm:
-  model_name: ${GLM_MODEL:-glm-4.5-air}
-  api_key_env: GLM_API_KEY
-  base_url: ${GLM_BASE_URL:-https://open.bigmodel.cn/api/paas/v4}
-  stream: true
-  timeout_s: 120.0
-
