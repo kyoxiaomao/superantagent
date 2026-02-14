@@ -3,9 +3,9 @@
 
 当环境变量 `ANT_RESET_ON_START=true` 时，启动阶段会清除上一轮运行动态产生的数据：
 - memory/storage/*.jsonl
-- agents/**/skills/* 与 agents/**/tools/* 下的动态工件目录（保留 .gitkeep）
 - docs/generated/ 下所有文件
 - logs/ 下的 *.log 与 events_*.jsonl
+- utils/logs/ 下的 *.log 与 *.jsonl
 """
 
 from __future__ import annotations
@@ -58,17 +58,6 @@ def _iter_target_paths(base: str) -> Iterable[str]:
     data_dir = os.path.join(base, "message", "chatdata")
     yield from _glob_files(data_dir, suffixes=(".jsonl",))
 
-    agents_dir = os.path.join(base, "agents")
-    if os.path.isdir(agents_dir):
-        for dirpath, dirnames, _filenames in os.walk(agents_dir):
-            leaf = os.path.basename(dirpath)
-            if leaf not in {"skills", "tools"}:
-                continue
-            for dn in list(dirnames):
-                if dn == ".gitkeep":
-                    continue
-                yield os.path.join(dirpath, dn)
-
     docs_generated = os.path.join(base, "docs", "generated")
     if os.path.isdir(docs_generated):
         yield docs_generated
@@ -76,6 +65,9 @@ def _iter_target_paths(base: str) -> Iterable[str]:
     logs_dir = os.path.join(base, "logs")
     yield from _glob_files(logs_dir, prefix="events_", suffixes=(".jsonl",))
     yield from _glob_files(logs_dir, suffixes=(".log",))
+
+    utils_logs_dir = os.path.join(base, "utils", "logs")
+    yield from _glob_files(utils_logs_dir, suffixes=(".jsonl", ".log"))
 
 
 def _glob_files(dir_path: str, *, suffixes: tuple[str, ...], prefix: str = "") -> list[str]:

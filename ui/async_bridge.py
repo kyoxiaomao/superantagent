@@ -220,6 +220,19 @@ class AsyncColonyBridge:
         asyncio.run_coroutine_threadsafe(self._runtime.refresh_vector_store(), self._loop)
         return True
 
+    def reload_role_utils(self, *, role_key: str) -> concurrent.futures.Future | None:
+        rk = str(role_key or "").strip()
+        if not rk:
+            raise ValueError("role_key is required")
+        if not self._loop or not self._runtime:
+            return None
+        if self._loop.is_closed():
+            return None
+        fn = getattr(self._runtime, "reload_role_utils", None)
+        if fn is None or not callable(fn):
+            raise AttributeError("runtime.reload_role_utils not available")
+        return asyncio.run_coroutine_threadsafe(fn(role_key=rk), self._loop)
+
     def _log_startup(self, text: str) -> None:
         print(text, flush=True)
 

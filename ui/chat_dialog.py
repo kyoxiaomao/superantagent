@@ -15,12 +15,13 @@ from ui.tool_library_panel import ToolLibraryPanel
 
 
 class ChatDialog:
-    def __init__(self, *, title: str = "蚂蚁桌宠对话框", queen_name: str, data_center: DataCenter) -> None:
+    def __init__(self, *, title: str = "蚂蚁桌宠对话框", queen_name: str, data_center: DataCenter, bridge: object | None = None) -> None:
         queen_name = str(queen_name or "").strip()
         if not queen_name:
             raise ValueError("queen_name is required")
         self.queen_name = queen_name
         self.data_center = data_center
+        self.bridge = bridge
 
         self.root = tk.Tk()
         self.root.title(title)
@@ -36,6 +37,7 @@ class ChatDialog:
         self._view_frames: dict[str, ttk.Frame] = {}
         self._view_texts: dict[str, tk.Text] = {}
         self._view_header_vars: dict[str, dict[str, tk.StringVar]] = {}
+        self._view_equipped_combos: dict[str, ttk.Combobox] = {}
         self._view_avatar_labels: dict[str, ttk.Label] = {}
         self._image_refs: dict[str, object] = {}
         self._current_view: str | None = None
@@ -60,12 +62,12 @@ class ChatDialog:
         
         self._notebook.add(self._tab_main, text="主界面")
         self._notebook.add(self._tab_db, text="数据库")
-        self._notebook.add(self._tab_tool_library, text="工具库")
+        self._notebook.add(self._tab_tool_library, text="装备库")
         self._notebook.bind("<<NotebookTabChanged>>", self._on_tab_changed)
 
         self._tab_tool_library.columnconfigure(0, weight=1)
         self._tab_tool_library.rowconfigure(0, weight=1)
-        tool_panel = ToolLibraryPanel(self._tab_tool_library, data_center=self.data_center)
+        tool_panel = ToolLibraryPanel(self._tab_tool_library, data_center=self.data_center, bridge=self.bridge)
         tool_panel.grid(row=0, column=0, sticky="nsew")
 
         self._tab_main.columnconfigure(0, weight=1)
@@ -216,6 +218,34 @@ class ChatDialog:
                 header_vars["status"].set(str(st["status"]))
             if heartbeat is not None:
                 header_vars["count"].set(f"#{st['count']}")
+
+    def update_agent_equipped(self, *, name: str, skills: list[str] | None = None, tools: list[str] | None = None, groups: list[str] | None = None) -> None:
+        if not name:
+            return
+        self.ensure_agent_item(name=name, avatar=None)
+        self._ensure_agent_view(name=name)
+        view_key = f"agent:{name}"
+        combo = self._view_equipped_combos.get(view_key)
+        header_vars = self._view_header_vars.get(view_key)
+        if combo is None or header_vars is None:
+            return
+        skill_list = [str(x) for x in (skills or []) if str(x).strip()]
+        tool_list = [str(x) for x in (tools or []) if str(x).strip()]
+        group_list = [str(x) for x in (groups or []) if str(x).strip()]
+        values: list[str] = []
+        if skill_list:
+            values.extend([f"技能:{x}" for x in sorted(set(skill_list))])
+        if tool_list:
+            values.extend([f"工具:{x}" for x in sorted(set(tool_list))])
+        if not values and group_list:
+            values = sorted(set(group_list))
+        if not values:
+            values = ["无技能"]
+        combo["values"] = values
+        current = str(header_vars.get("equipped").get() if header_vars.get("equipped") is not None else "").strip()
+        if current in values:
+            return
+        header_vars["equipped"].set(values[0])
 
     def add_user_message(self, *, text: str) -> None:
         self._ensure_queen_view()
@@ -369,11 +399,15 @@ class ChatDialog:
         self._view_avatar_labels[view_key] = avatar_label
 
         ttk.Label(header, text=name).grid(row=0, column=1, sticky="w")
+        equipped_var = tk.StringVar(value="无技能")
+        equipped_combo = ttk.Combobox(header, textvariable=equipped_var, state="readonly", width=18, values=["无技能"])
+        equipped_combo.grid(row=0, column=2, sticky="w", padx=(10, 0))
+        self._view_equipped_combos[view_key] = equipped_combo
         status_var = tk.StringVar(value=str((self._agent_state.get(name) or {}).get("status") or "空闲"))
         count_var = tk.StringVar(value=f"#{int((self._agent_state.get(name) or {}).get('count') or 0)}")
 
-        ttk.Label(header, textvariable=status_var).grid(row=0, column=2, sticky="w", padx=(10, 0))
-        ttk.Label(header, textvariable=count_var).grid(row=0, column=3, sticky="w", padx=(10, 0))
+        ttk.Label(header, textvariable=status_var).grid(row=0, column=3, sticky="w", padx=(10, 0))
+        ttk.Label(header, textvariable=count_var).grid(row=0, column=4, sticky="w", padx=(10, 0))
 
         text_widget = tk.Text(frame, wrap="word", state="disabled")
         text_widget.grid(row=1, column=0, sticky="nsew", padx=6, pady=6)
@@ -383,7 +417,7 @@ class ChatDialog:
 
         self._view_frames[view_key] = frame
         self._view_texts[view_key] = text_widget
-        self._view_header_vars[view_key] = {"status": status_var, "count": count_var}
+        self._view_header_vars[view_key] = {"status": status_var, "count": count_var, "equipped": equipped_var}
 
         if name == self.queen_name:
             footer = ttk.Frame(frame)

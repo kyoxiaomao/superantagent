@@ -8,7 +8,7 @@ from models.model_manager import ModelBundle, load_glm_bundle, load_model_bundle
 from services.skill_loader import (
     get_skills_dir,
     list_skill_artifacts,
-    load_skills,
+    load_utils,
     safe_write_skill_doc,
     safe_write_skill_file,
 )
@@ -20,7 +20,7 @@ __all__ = [
     "load_model_bundles",
     "get_skills_dir",
     "list_skill_artifacts",
-    "load_skills",
+    "load_utils",
     "safe_write_skill_doc",
     "safe_write_skill_file",
 ]

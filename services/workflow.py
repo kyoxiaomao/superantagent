@@ -31,7 +31,7 @@ from agents.worker import (
 )
 from message import extract_first_json_obj, make_msg, msg_to_text
 from services import ModelBundle
-from services.skill_loader import load_skills
+from services.skill_loader import load_utils
 
 
 @dataclass
@@ -249,4 +249,4 @@ async def _ensure_tool_ready(
     await _handle_tool_create(colony, hub, params)
 
     if hasattr(worker_agent, "toolkit"):
-        load_skills(worker_agent.toolkit, role_key=worker_type)
+        load_utils(worker_agent.toolkit, role_key=worker_type)

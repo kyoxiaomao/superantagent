@@ -1,7 +1,7 @@
 """
 工蚁_诺瓦智能体工厂。
 
-在创建时加载该 Agent 个人目录 `skills/` 下的动态技能，并提供 reload/list 工具便于运行时更新技能。
+在创建时扫描并加载该 Agent 的个人装备库（`skills/` + `tools/`），并提供 reload/list 工具便于运行时更新装备。
 """
 
 from __future__ import annotations
@@ -10,16 +10,16 @@ from agentscope.tool import Toolkit
 
 from agents.base import create_react_ant_agent
 from services import ModelBundle
-from services.skill_loader import list_skill_artifacts, load_skills
+from services.skill_loader import list_skill_artifacts, load_utils
 from services.agent_update_scheduler import UpdateContext, read_chat_delta
 
 
 def create_browser_worker_agent(model_bundle: ModelBundle) -> object:
     toolkit = Toolkit()
-    load_skills(toolkit, role_key="worker_nova")
+    load_utils(toolkit, role_key="worker_nova")
 
-    def reload_skills() -> list[str]:
-        return load_skills(toolkit, role_key="worker_nova")
+    def reload_skills() -> dict[str, list[str]]:
+        return load_utils(toolkit, role_key="worker_nova")
 
     def list_skills() -> dict[str, list[str]]:
         return list_skill_artifacts(role_key="worker_nova")

@@ -162,3 +162,212 @@
 {"ts": "2026-02-14 18:01:26.775", "level": "INFO", "event_type": "http_call", "pid": 22500, "payload": {"method": "record_to_memory"}}
 {"ts": "2026-02-14 18:01:32.484", "level": "ERROR", "event_type": "memory_record", "pid": 22500, "payload": {"method": "record_to_memory", "agent_name": "蚁后_瑟拉", "base_workspace_id": "local_user:蚁后_瑟拉", "memory_type": "personal", "workspace_id": "local_user:蚁后_瑟拉:personal", "collection": "ws_c358a7f4ed09259ef914819a133733398055af09", "count_before": 0, "count_after": 0, "delta": 0, "cost_ms": 5677.083500027657, "error": "ValueError: memory_list 为空，已拒绝写入。"}}
 {"ts": "2026-02-14 18:01:32.485", "level": "ERROR", "event_type": "http_error", "pid": 22500, "payload": {"path": "/call", "error": "ValueError: memory_list 为空，已拒绝写入。"}}
+{"ts": "2026-02-14 21:22:19.436", "level": "INFO", "event_type": "warmup_start", "pid": 22652, "payload": {"url": "http://127.0.0.1:8765"}}
+{"ts": "2026-02-14 21:22:19.750", "level": "WARN", "event_type": "warmup_skip", "pid": 22652, "payload": {"reason": "service_not_running", "url": "http://127.0.0.1:8765", "detail": "TimeoutError: timed out"}}
+{"ts": "2026-02-14 21:23:39.075", "level": "INFO", "event_type": "warmup_start", "pid": 27516, "payload": {"url": "http://127.0.0.1:8765"}}
+{"ts": "2026-02-14 21:23:39.389", "level": "WARN", "event_type": "warmup_skip", "pid": 27516, "payload": {"reason": "service_not_running", "url": "http://127.0.0.1:8765", "detail": "TimeoutError: timed out"}}
+{"ts": "2026-02-14 22:24:11.702", "level": "INFO", "event_type": "warmup_start", "pid": 28132, "payload": {"url": "http://127.0.0.1:8765"}}
+{"ts": "2026-02-14 22:24:12.019", "level": "WARN", "event_type": "warmup_skip", "pid": 28132, "payload": {"reason": "service_not_running", "url": "http://127.0.0.1:8765", "detail": "TimeoutError: timed out"}}
+{"ts": "2026-02-14 22:28:45.136", "level": "INFO", "event_type": "warmup_start", "pid": 28300, "payload": {"url": "http://127.0.0.1:8765"}}
+{"ts": "2026-02-14 22:28:45.445", "level": "WARN", "event_type": "warmup_skip", "pid": 28300, "payload": {"reason": "service_not_running", "url": "http://127.0.0.1:8765", "detail": "TimeoutError: timed out"}}
+{"ts": "2026-02-14 22:28:57.753", "level": "INFO", "event_type": "server_start", "pid": 30088, "payload": {"host": "127.0.0.1", "port": 8765}}
+{"ts": "2026-02-14 22:28:58.177", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "GET", "path": "/health"}}
+{"ts": "2026-02-14 22:28:58.186", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "GET", "path": "/info"}}
+{"ts": "2026-02-14 22:29:05.125", "level": "INFO", "event_type": "warmup_start", "pid": 28300, "payload": {"url": "http://127.0.0.1:8765"}}
+{"ts": "2026-02-14 22:29:05.128", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:29:05.128", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 22:29:09.139", "level": "INFO", "event_type": "vector_connect_start", "pid": 30088, "payload": {"agent_name": "蚁王_特鲁", "base_workspace_id": "local_user:蚁王_特鲁", "vector_store_dir": "D:\\SuperAntAgent\\chromaserver\\data\\chroma_vector_store"}}
+{"ts": "2026-02-14 22:29:11.973", "level": "INFO", "event_type": "vector_connect_ok", "pid": 30088, "payload": {"agent_name": "蚁王_特鲁", "base_workspace_id": "local_user:蚁王_特鲁", "vector_store_dir": "D:\\SuperAntAgent\\chromaserver\\data\\chroma_vector_store", "cost_ms": 2834.4558000098914}}
+{"ts": "2026-02-14 22:29:12.045", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:29:12.045", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 22:29:12.157", "level": "INFO", "event_type": "vector_connect_start", "pid": 30088, "payload": {"agent_name": "蚁后_瑟拉", "base_workspace_id": "local_user:蚁后_瑟拉", "vector_store_dir": "D:\\SuperAntAgent\\chromaserver\\data\\chroma_vector_store"}}
+{"ts": "2026-02-14 22:29:14.857", "level": "INFO", "event_type": "vector_connect_ok", "pid": 30088, "payload": {"agent_name": "蚁后_瑟拉", "base_workspace_id": "local_user:蚁后_瑟拉", "vector_store_dir": "D:\\SuperAntAgent\\chromaserver\\data\\chroma_vector_store", "cost_ms": 2698.7978001125157}}
+{"ts": "2026-02-14 22:29:14.945", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:29:14.945", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 22:29:14.980", "level": "INFO", "event_type": "vector_connect_start", "pid": 30088, "payload": {"agent_name": "兵蚁_阿瑞", "base_workspace_id": "local_user:兵蚁_阿瑞", "vector_store_dir": "D:\\SuperAntAgent\\chromaserver\\data\\chroma_vector_store"}}
+{"ts": "2026-02-14 22:29:17.724", "level": "INFO", "event_type": "vector_connect_ok", "pid": 30088, "payload": {"agent_name": "兵蚁_阿瑞", "base_workspace_id": "local_user:兵蚁_阿瑞", "vector_store_dir": "D:\\SuperAntAgent\\chromaserver\\data\\chroma_vector_store", "cost_ms": 2743.655900005251}}
+{"ts": "2026-02-14 22:29:17.806", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:29:17.806", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 22:29:17.839", "level": "INFO", "event_type": "vector_connect_start", "pid": 30088, "payload": {"agent_name": "工蚁_莱特", "base_workspace_id": "local_user:工蚁_莱特", "vector_store_dir": "D:\\SuperAntAgent\\chromaserver\\data\\chroma_vector_store"}}
+{"ts": "2026-02-14 22:29:20.535", "level": "INFO", "event_type": "vector_connect_ok", "pid": 30088, "payload": {"agent_name": "工蚁_莱特", "base_workspace_id": "local_user:工蚁_莱特", "vector_store_dir": "D:\\SuperAntAgent\\chromaserver\\data\\chroma_vector_store", "cost_ms": 2694.909700192511}}
+{"ts": "2026-02-14 22:29:20.609", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:29:20.609", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 22:29:20.641", "level": "INFO", "event_type": "vector_connect_start", "pid": 30088, "payload": {"agent_name": "工蚁_诺瓦", "base_workspace_id": "local_user:工蚁_诺瓦", "vector_store_dir": "D:\\SuperAntAgent\\chromaserver\\data\\chroma_vector_store"}}
+{"ts": "2026-02-14 22:29:23.409", "level": "INFO", "event_type": "vector_connect_ok", "pid": 30088, "payload": {"agent_name": "工蚁_诺瓦", "base_workspace_id": "local_user:工蚁_诺瓦", "vector_store_dir": "D:\\SuperAntAgent\\chromaserver\\data\\chroma_vector_store", "cost_ms": 2768.7882999889553}}
+{"ts": "2026-02-14 22:29:23.506", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:29:23.507", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 22:29:23.540", "level": "INFO", "event_type": "vector_connect_start", "pid": 30088, "payload": {"agent_name": "工蚁_里德", "base_workspace_id": "local_user:工蚁_里德", "vector_store_dir": "D:\\SuperAntAgent\\chromaserver\\data\\chroma_vector_store"}}
+{"ts": "2026-02-14 22:29:26.297", "level": "INFO", "event_type": "vector_connect_ok", "pid": 30088, "payload": {"agent_name": "工蚁_里德", "base_workspace_id": "local_user:工蚁_里德", "vector_store_dir": "D:\\SuperAntAgent\\chromaserver\\data\\chroma_vector_store", "cost_ms": 2757.5485999695957}}
+{"ts": "2026-02-14 22:29:26.366", "level": "INFO", "event_type": "warmup_ok", "pid": 28300, "payload": {"cost_ms": 21242.519000079483, "agents": ["蚁王_特鲁", "蚁后_瑟拉", "兵蚁_阿瑞", "工蚁_莱特", "工蚁_诺瓦", "工蚁_里德"]}}
+{"ts": "2026-02-14 22:29:46.017", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:29:46.017", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "retrieve"}}
+{"ts": "2026-02-14 22:29:53.728", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:29:53.728", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "retrieve_from_memory"}}
+{"ts": "2026-02-14 22:29:54.286", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:29:54.286", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "retrieve_from_memory"}}
+{"ts": "2026-02-14 22:29:54.791", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:29:54.791", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "retrieve_from_memory"}}
+{"ts": "2026-02-14 22:30:07.686", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:30:07.686", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "record_to_memory"}}
+{"ts": "2026-02-14 22:30:13.101", "level": "ERROR", "event_type": "memory_record", "pid": 30088, "payload": {"method": "record_to_memory", "agent_name": "蚁后_瑟拉", "base_workspace_id": "local_user:蚁后_瑟拉", "memory_type": "personal", "workspace_id": "local_user:蚁后_瑟拉:personal", "collection": "ws_c358a7f4ed09259ef914819a133733398055af09", "count_before": 0, "count_after": 0, "delta": 0, "cost_ms": 5385.278099775314, "error": "ValueError: memory_list 为空，已拒绝写入。"}}
+{"ts": "2026-02-14 22:30:13.103", "level": "ERROR", "event_type": "http_error", "pid": 30088, "payload": {"path": "/call", "error": "ValueError: memory_list 为空，已拒绝写入。"}}
+{"ts": "2026-02-14 22:33:26.018", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:33:26.018", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "retrieve"}}
+{"ts": "2026-02-14 22:33:31.383", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:33:31.385", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "retrieve_from_memory"}}
+{"ts": "2026-02-14 22:33:31.851", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:33:31.851", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "retrieve_from_memory"}}
+{"ts": "2026-02-14 22:33:32.370", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:33:32.370", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "retrieve_from_memory"}}
+{"ts": "2026-02-14 22:33:33.283", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:33:33.283", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "retrieve_from_memory"}}
+{"ts": "2026-02-14 22:33:33.750", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:33:33.750", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "retrieve_from_memory"}}
+{"ts": "2026-02-14 22:33:45.322", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:33:45.322", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "record_to_memory"}}
+{"ts": "2026-02-14 22:33:52.830", "level": "ERROR", "event_type": "memory_record", "pid": 30088, "payload": {"method": "record_to_memory", "agent_name": "蚁后_瑟拉", "base_workspace_id": "local_user:蚁后_瑟拉", "memory_type": "personal", "workspace_id": "local_user:蚁后_瑟拉:personal", "collection": "ws_c358a7f4ed09259ef914819a133733398055af09", "count_before": 0, "count_after": 0, "delta": 0, "cost_ms": 7478.757400035858, "error": "ValueError: memory_list 为空，已拒绝写入。"}}
+{"ts": "2026-02-14 22:33:52.831", "level": "ERROR", "event_type": "http_error", "pid": 30088, "payload": {"path": "/call", "error": "ValueError: memory_list 为空，已拒绝写入。"}}
+{"ts": "2026-02-14 22:34:10.287", "level": "INFO", "event_type": "warmup_start", "pid": 30072, "payload": {"url": "http://127.0.0.1:8765"}}
+{"ts": "2026-02-14 22:34:10.316", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:34:10.317", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 22:34:10.320", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:34:10.320", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 22:34:10.344", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:34:10.345", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 22:34:10.347", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:34:10.347", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 22:34:10.349", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:34:10.351", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 22:34:10.374", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:34:10.375", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 22:34:10.377", "level": "INFO", "event_type": "warmup_ok", "pid": 30072, "payload": {"cost_ms": 88.96189997904003, "agents": ["蚁王_特鲁", "蚁后_瑟拉", "兵蚁_阿瑞", "工蚁_莱特", "工蚁_诺瓦", "工蚁_里德"]}}
+{"ts": "2026-02-14 22:35:11.283", "level": "INFO", "event_type": "warmup_start", "pid": 36292, "payload": {"url": "http://127.0.0.1:8765"}}
+{"ts": "2026-02-14 22:35:11.331", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:35:11.332", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 22:35:11.348", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:35:11.348", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 22:35:11.351", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:35:11.351", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 22:35:11.353", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:35:11.353", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 22:35:11.379", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:35:11.379", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 22:35:11.395", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:35:11.395", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 22:35:11.396", "level": "INFO", "event_type": "warmup_ok", "pid": 36292, "payload": {"cost_ms": 112.93369997292757, "agents": ["蚁王_特鲁", "蚁后_瑟拉", "兵蚁_阿瑞", "工蚁_莱特", "工蚁_诺瓦", "工蚁_里德"]}}
+{"ts": "2026-02-14 22:46:16.425", "level": "INFO", "event_type": "warmup_start", "pid": 8436, "payload": {"url": "http://127.0.0.1:8765"}}
+{"ts": "2026-02-14 22:46:16.465", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:46:16.465", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 22:46:16.468", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:46:16.468", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 22:46:16.471", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:46:16.471", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 22:46:16.474", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:46:16.474", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 22:46:16.489", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:46:16.489", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 22:46:16.505", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:46:16.505", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 22:46:16.508", "level": "INFO", "event_type": "warmup_ok", "pid": 8436, "payload": {"cost_ms": 81.9203001447022, "agents": ["蚁王_特鲁", "蚁后_瑟拉", "兵蚁_阿瑞", "工蚁_莱特", "工蚁_诺瓦", "工蚁_里德"]}}
+{"ts": "2026-02-14 22:46:52.921", "level": "INFO", "event_type": "warmup_start", "pid": 29320, "payload": {"url": "http://127.0.0.1:8765"}}
+{"ts": "2026-02-14 22:46:52.948", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:46:52.949", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 22:46:52.951", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:46:52.952", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 22:46:52.968", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:46:52.968", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 22:46:52.971", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:46:52.971", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 22:46:52.999", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:46:52.999", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 22:46:53.001", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:46:53.001", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 22:46:53.003", "level": "INFO", "event_type": "warmup_ok", "pid": 29320, "payload": {"cost_ms": 81.60550007596612, "agents": ["蚁王_特鲁", "蚁后_瑟拉", "兵蚁_阿瑞", "工蚁_莱特", "工蚁_诺瓦", "工蚁_里德"]}}
+{"ts": "2026-02-14 22:47:14.931", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:47:14.931", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "retrieve"}}
+{"ts": "2026-02-14 22:47:16.980", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:47:16.980", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "retrieve_from_memory"}}
+{"ts": "2026-02-14 22:47:26.193", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:47:26.194", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "record_to_memory"}}
+{"ts": "2026-02-14 22:47:30.858", "level": "ERROR", "event_type": "memory_record", "pid": 30088, "payload": {"method": "record_to_memory", "agent_name": "蚁后_瑟拉", "base_workspace_id": "local_user:蚁后_瑟拉", "memory_type": "personal", "workspace_id": "local_user:蚁后_瑟拉:personal", "collection": "ws_c358a7f4ed09259ef914819a133733398055af09", "count_before": 0, "count_after": 0, "delta": 0, "cost_ms": 4639.608599901199, "error": "ValueError: memory_list 为空，已拒绝写入。"}}
+{"ts": "2026-02-14 22:47:30.858", "level": "ERROR", "event_type": "http_error", "pid": 30088, "payload": {"path": "/call", "error": "ValueError: memory_list 为空，已拒绝写入。"}}
+{"ts": "2026-02-14 22:48:46.752", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:48:46.752", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "retrieve"}}
+{"ts": "2026-02-14 22:48:54.371", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:48:54.371", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "record_to_memory"}}
+{"ts": "2026-02-14 22:48:58.497", "level": "ERROR", "event_type": "memory_record", "pid": 30088, "payload": {"method": "record_to_memory", "agent_name": "蚁后_瑟拉", "base_workspace_id": "local_user:蚁后_瑟拉", "memory_type": "personal", "workspace_id": "local_user:蚁后_瑟拉:personal", "collection": "ws_c358a7f4ed09259ef914819a133733398055af09", "count_before": 0, "count_after": 0, "delta": 0, "cost_ms": 4099.478499889374, "error": "ValueError: memory_list 为空，已拒绝写入。"}}
+{"ts": "2026-02-14 22:48:58.498", "level": "ERROR", "event_type": "http_error", "pid": 30088, "payload": {"path": "/call", "error": "ValueError: memory_list 为空，已拒绝写入。"}}
+{"ts": "2026-02-14 22:49:14.794", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:49:14.794", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "retrieve"}}
+{"ts": "2026-02-14 22:49:17.099", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:49:17.101", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "retrieve_from_memory"}}
+{"ts": "2026-02-14 22:49:19.023", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:49:19.023", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "retrieve_from_memory"}}
+{"ts": "2026-02-14 22:49:25.373", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 22:49:25.373", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "record_to_memory"}}
+{"ts": "2026-02-14 22:49:31.169", "level": "ERROR", "event_type": "memory_record", "pid": 30088, "payload": {"method": "record_to_memory", "agent_name": "蚁后_瑟拉", "base_workspace_id": "local_user:蚁后_瑟拉", "memory_type": "personal", "workspace_id": "local_user:蚁后_瑟拉:personal", "collection": "ws_c358a7f4ed09259ef914819a133733398055af09", "count_before": 0, "count_after": 0, "delta": 0, "cost_ms": 5769.559499740601, "error": "ValueError: memory_list 为空，已拒绝写入。"}}
+{"ts": "2026-02-14 22:49:31.169", "level": "ERROR", "event_type": "http_error", "pid": 30088, "payload": {"path": "/call", "error": "ValueError: memory_list 为空，已拒绝写入。"}}
+{"ts": "2026-02-14 23:03:01.339", "level": "INFO", "event_type": "warmup_start", "pid": 19712, "payload": {"url": "http://127.0.0.1:8765"}}
+{"ts": "2026-02-14 23:03:01.364", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 23:03:01.364", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 23:03:01.367", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 23:03:01.367", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 23:03:01.384", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 23:03:01.384", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 23:03:01.387", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 23:03:01.387", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 23:03:01.390", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 23:03:01.390", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 23:03:01.391", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 23:03:01.393", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 23:03:01.393", "level": "INFO", "event_type": "warmup_ok", "pid": 19712, "payload": {"cost_ms": 54.46440004743636, "agents": ["蚁王_特鲁", "蚁后_瑟拉", "兵蚁_阿瑞", "工蚁_莱特", "工蚁_诺瓦", "工蚁_里德"]}}
+{"ts": "2026-02-14 23:10:09.754", "level": "INFO", "event_type": "warmup_start", "pid": 12688, "payload": {"url": "http://127.0.0.1:8765"}}
+{"ts": "2026-02-14 23:10:09.779", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 23:10:09.779", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 23:10:09.783", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 23:10:09.783", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 23:10:09.786", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 23:10:09.786", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 23:10:09.809", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 23:10:09.809", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 23:10:09.812", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 23:10:09.814", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 23:10:09.841", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 23:10:09.841", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 23:10:09.844", "level": "INFO", "event_type": "warmup_ok", "pid": 12688, "payload": {"cost_ms": 89.71550012938678, "agents": ["蚁王_特鲁", "蚁后_瑟拉", "兵蚁_阿瑞", "工蚁_莱特", "工蚁_诺瓦", "工蚁_里德"]}}
+{"ts": "2026-02-14 23:37:43.223", "level": "INFO", "event_type": "warmup_start", "pid": 20420, "payload": {"url": "http://127.0.0.1:8765"}}
+{"ts": "2026-02-14 23:37:43.250", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 23:37:43.251", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 23:37:43.253", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 23:37:43.254", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 23:37:43.256", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 23:37:43.256", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 23:37:43.259", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 23:37:43.259", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 23:37:43.261", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 23:37:43.262", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 23:37:43.264", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 23:37:43.264", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "ensure_ready"}}
+{"ts": "2026-02-14 23:37:43.265", "level": "INFO", "event_type": "warmup_ok", "pid": 20420, "payload": {"cost_ms": 41.74110013991594, "agents": ["蚁王_特鲁", "蚁后_瑟拉", "兵蚁_阿瑞", "工蚁_莱特", "工蚁_诺瓦", "工蚁_里德"]}}
+{"ts": "2026-02-14 23:38:14.633", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 23:38:14.633", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "retrieve"}}
+{"ts": "2026-02-14 23:38:19.186", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 23:38:19.186", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "retrieve_from_memory"}}
+{"ts": "2026-02-14 23:38:24.149", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 23:38:24.150", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "record_to_memory"}}
+{"ts": "2026-02-14 23:38:32.274", "level": "ERROR", "event_type": "memory_record", "pid": 30088, "payload": {"method": "record_to_memory", "agent_name": "蚁后_瑟拉", "base_workspace_id": "local_user:蚁后_瑟拉", "memory_type": "personal", "workspace_id": "local_user:蚁后_瑟拉:personal", "collection": "ws_c358a7f4ed09259ef914819a133733398055af09", "count_before": 0, "count_after": 0, "delta": 0, "cost_ms": 8096.182599782944, "error": "ValueError: memory_list 为空，已拒绝写入。"}}
+{"ts": "2026-02-14 23:38:32.275", "level": "ERROR", "event_type": "http_error", "pid": 30088, "payload": {"path": "/call", "error": "ValueError: memory_list 为空，已拒绝写入。"}}
+{"ts": "2026-02-14 23:38:39.457", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 23:38:39.457", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "retrieve"}}
+{"ts": "2026-02-14 23:38:42.052", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 23:38:42.053", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "retrieve_from_memory"}}
+{"ts": "2026-02-14 23:38:50.220", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 23:38:50.222", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "record_to_memory"}}
+{"ts": "2026-02-14 23:38:54.895", "level": "ERROR", "event_type": "memory_record", "pid": 30088, "payload": {"method": "record_to_memory", "agent_name": "蚁后_瑟拉", "base_workspace_id": "local_user:蚁后_瑟拉", "memory_type": "personal", "workspace_id": "local_user:蚁后_瑟拉:personal", "collection": "ws_c358a7f4ed09259ef914819a133733398055af09", "count_before": 0, "count_after": 0, "delta": 0, "cost_ms": 4648.5473001003265, "error": "ValueError: memory_list 为空，已拒绝写入。"}}
+{"ts": "2026-02-14 23:38:54.895", "level": "ERROR", "event_type": "http_error", "pid": 30088, "payload": {"path": "/call", "error": "ValueError: memory_list 为空，已拒绝写入。"}}
+{"ts": "2026-02-14 23:39:48.802", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 23:39:48.804", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "retrieve"}}
+{"ts": "2026-02-14 23:40:22.561", "level": "INFO", "event_type": "http_request", "pid": 30088, "payload": {"method": "POST", "path": "/call"}}
+{"ts": "2026-02-14 23:40:22.561", "level": "INFO", "event_type": "http_call", "pid": 30088, "payload": {"method": "record_to_memory"}}
+{"ts": "2026-02-14 23:40:28.748", "level": "ERROR", "event_type": "memory_record", "pid": 30088, "payload": {"method": "record_to_memory", "agent_name": "蚁后_瑟拉", "base_workspace_id": "local_user:蚁后_瑟拉", "memory_type": "personal", "workspace_id": "local_user:蚁后_瑟拉:personal", "collection": "ws_c358a7f4ed09259ef914819a133733398055af09", "count_before": 0, "count_after": 0, "delta": 0, "cost_ms": 6160.63489985466, "error": "ValueError: memory_list 为空，已拒绝写入。"}}
+{"ts": "2026-02-14 23:40:28.748", "level": "ERROR", "event_type": "http_error", "pid": 30088, "payload": {"path": "/call", "error": "ValueError: memory_list 为空，已拒绝写入。"}}

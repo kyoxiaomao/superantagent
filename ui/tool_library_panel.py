@@ -1,15 +1,18 @@
 from __future__ import annotations
 
+import concurrent.futures
 import tkinter as tk
 from tkinter import ttk
+from typing import Any
 
 from ui.data_center import DataCenter, ToolLibrarySnapshot
 
 
 class ToolLibraryPanel(ttk.Frame):
-    def __init__(self, parent: ttk.Frame, *, data_center: DataCenter) -> None:
+    def __init__(self, parent: ttk.Frame, *, data_center: DataCenter, bridge: Any | None = None) -> None:
         super().__init__(parent)
         self.data_center = data_center
+        self.bridge = bridge
 
         self._type_display_to_key: dict[str, str] = {"全部": "all", "技能": "skill", "工具": "tool"}
         self._type_key_to_display: dict[str, str] = {"all": "全部", "skill": "技能", "tool": "工具"}
@@ -23,6 +26,8 @@ class ToolLibraryPanel(ttk.Frame):
         self._role_key_to_name: dict[str, str] = {}
         self._card_frames: list[ttk.Frame] = []
         self._columns = 1
+        self._pending_installs: dict[tuple[str, str, str], concurrent.futures.Future | None] = {}
+        self._pending_polling = False
 
         self._build()
         self.refresh()
@@ -35,9 +40,9 @@ class ToolLibraryPanel(ttk.Frame):
         toolbar.grid(row=0, column=0, sticky="ew")
         toolbar.columnconfigure(7, weight=1)
 
-        ttk.Label(toolbar, text="蚁族工具库").grid(row=0, column=0, sticky="w", padx=(0, 12))
+        ttk.Label(toolbar, text="蚁族装备库").grid(row=0, column=0, sticky="w", padx=(0, 12))
 
-        ttk.Radiobutton(toolbar, text="工具库", value="library", variable=self.mode_var, command=self.refresh).grid(row=0, column=1, sticky="w")
+        ttk.Radiobutton(toolbar, text="装备库", value="library", variable=self.mode_var, command=self.refresh).grid(row=0, column=1, sticky="w")
         ttk.Radiobutton(toolbar, text="角色", value="role", variable=self.mode_var, command=self.refresh).grid(row=0, column=2, sticky="w", padx=(6, 12))
 
         self.role_combo = ttk.Combobox(toolbar, textvariable=self.role_var, state="readonly", width=18)
@@ -171,12 +176,15 @@ class ToolLibraryPanel(ttk.Frame):
         mode = str(snapshot.mode)
         kind = str(card_kind)
         item_key = str(key)
+        pending_key = (role_key, kind, item_key)
 
         if mode == "role":
             if kind == "skill":
                 return {"label": "卸载", "enabled": True, "command": lambda: self._do_uninstall_skill(role_key=role_key, skill_key=item_key)}
             return {"label": "卸载", "enabled": True, "command": lambda: self._do_uninstall_tool(role_key=role_key, tool_key=item_key)}
 
+        if pending_key in self._pending_installs:
+            return {"label": "装配中...", "enabled": False, "command": lambda: None}
         if is_installed:
             return {"label": "已装配", "enabled": False, "command": lambda: None}
         if kind == "skill":
@@ -184,17 +192,118 @@ class ToolLibraryPanel(ttk.Frame):
         return {"label": "装配", "enabled": True, "command": lambda: self._do_install_tool(role_key=role_key, tool_key=item_key)}
 
     def _do_install_skill(self, *, role_key: str, skill_key: str) -> None:
-        self.data_center.install_skill(role_key=role_key, skill_key=skill_key)
+        rk = str(role_key or "").strip()
+        sk = str(skill_key or "").strip()
+        pending_key = (rk, "skill", sk)
+        self._pending_installs[pending_key] = None
         self.refresh()
+        try:
+            self.data_center.install_skill(role_key=rk, skill_key=sk)
+        except Exception as e:
+            self._pending_installs.pop(pending_key, None)
+            self.data_center.push_runtime_message(name="系统", role="system", text=f"装配失败：{e}")
+            self.refresh()
+            return
+
+        fut = None
+        if self.bridge is not None:
+            fut = self.bridge.reload_role_utils(role_key=rk)
+        if fut is None:
+            try:
+                self.data_center.uninstall_skill(role_key=rk, skill_key=sk)
+            except Exception as e:
+                self._pending_installs.pop(pending_key, None)
+                raise RuntimeError(f"装配回滚失败：{e}") from e
+            self._pending_installs.pop(pending_key, None)
+            self.data_center.push_runtime_message(name="系统", role="system", text="装配失败：后台运行时未就绪，已回滚。")
+            self.refresh()
+            return
+
+        self._pending_installs[pending_key] = fut
+        self._ensure_poll_pending()
 
     def _do_uninstall_skill(self, *, role_key: str, skill_key: str) -> None:
         self.data_center.uninstall_skill(role_key=role_key, skill_key=skill_key)
+        fut = None
+        if self.bridge is not None:
+            fut = self.bridge.reload_role_utils(role_key=str(role_key))
+        if fut is None:
+            self.data_center.push_runtime_message(name="系统", role="system", text="卸载完成：后台运行时未就绪，运行时工具集合将在下次加载时更新。")
+        else:
+            self.data_center.push_runtime_message(name="系统", role="system", text="卸载完成：已触发运行时同步更新。")
         self.refresh()
 
     def _do_install_tool(self, *, role_key: str, tool_key: str) -> None:
-        self.data_center.install_tool(role_key=role_key, tool_key=tool_key)
+        rk = str(role_key or "").strip()
+        tk0 = str(tool_key or "").strip()
+        pending_key = (rk, "tool", tk0)
+        self._pending_installs[pending_key] = None
         self.refresh()
+        try:
+            self.data_center.install_tool(role_key=rk, tool_key=tk0)
+        except Exception as e:
+            self._pending_installs.pop(pending_key, None)
+            self.data_center.push_runtime_message(name="系统", role="system", text=f"装配失败：{e}")
+            self.refresh()
+            return
+
+        fut = None
+        if self.bridge is not None:
+            fut = self.bridge.reload_role_utils(role_key=rk)
+        if fut is None:
+            try:
+                self.data_center.uninstall_tool(role_key=rk, tool_key=tk0)
+            except Exception as e:
+                self._pending_installs.pop(pending_key, None)
+                raise RuntimeError(f"装配回滚失败：{e}") from e
+            self._pending_installs.pop(pending_key, None)
+            self.data_center.push_runtime_message(name="系统", role="system", text="装配失败：后台运行时未就绪，已回滚。")
+            self.refresh()
+            return
+
+        self._pending_installs[pending_key] = fut
+        self._ensure_poll_pending()
 
     def _do_uninstall_tool(self, *, role_key: str, tool_key: str) -> None:
         self.data_center.uninstall_tool(role_key=role_key, tool_key=tool_key)
+        fut = None
+        if self.bridge is not None:
+            fut = self.bridge.reload_role_utils(role_key=str(role_key))
+        if fut is None:
+            self.data_center.push_runtime_message(name="系统", role="system", text="卸载完成：后台运行时未就绪，运行时工具集合将在下次加载时更新。")
+        else:
+            self.data_center.push_runtime_message(name="系统", role="system", text="卸载完成：已触发运行时同步更新。")
         self.refresh()
+
+    def _ensure_poll_pending(self) -> None:
+        if self._pending_polling:
+            return
+        self._pending_polling = True
+        self.after(120, self._poll_pending)
+
+    def _poll_pending(self) -> None:
+        done_any = False
+        for pending_key, fut in list(self._pending_installs.items()):
+            if fut is None or not fut.done():
+                continue
+            role_key, kind, item_key = pending_key
+            try:
+                fut.result()
+                self.data_center.push_runtime_message(name="系统", role="system", text=f"装配完成：{kind}/{item_key} -> {role_key}")
+            except Exception as e:
+                if kind == "skill":
+                    self.data_center.uninstall_skill(role_key=role_key, skill_key=item_key)
+                else:
+                    self.data_center.uninstall_tool(role_key=role_key, tool_key=item_key)
+                self.data_center.push_runtime_message(name="系统", role="system", text=f"装配失败：{e}（已回滚）")
+            finally:
+                self._pending_installs.pop(pending_key, None)
+                done_any = True
+
+        if done_any:
+            self.refresh()
+
+        if self._pending_installs:
+            self.after(160, self._poll_pending)
+        else:
+            self._pending_polling = False

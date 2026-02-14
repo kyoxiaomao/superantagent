@@ -39,6 +39,7 @@ class DataEvent:
     - user_reply：用户回复最终文本
     - group_message：群聊追加消息
     - agent_message：指定智能体视图追加消息
+    - toolkit_snapshot：智能体工具箱快照（已装配技能/工具组）
     - error：错误提示
     """
 
@@ -379,6 +380,24 @@ class DataCenter:
             self._stream_key = None
             self._stream_last_text = ""
             return [DataEvent(type="user_reply", payload={"agent_name": agent_name, "text": reply_text})]
+
+        if ui_event == "toolkit_snapshot":
+            agent_name = str(md.get("agent_name") or "").strip()
+            role_key = str(md.get("role_key") or "").strip()
+            groups = md.get("groups")
+            skills = md.get("skills")
+            tools = md.get("tools")
+            group_list = [str(x) for x in groups] if isinstance(groups, list) else []
+            skill_list = [str(x) for x in skills] if isinstance(skills, list) else []
+            tool_list = [str(x) for x in tools] if isinstance(tools, list) else []
+            if not agent_name and role_key:
+                agent_name = str(self.role_to_name.get(role_key) or "").strip()
+            return [
+                DataEvent(
+                    type="toolkit_snapshot",
+                    payload={"agent_name": agent_name, "role_key": role_key, "groups": group_list, "skills": skill_list, "tools": tool_list},
+                )
+            ]
 
         return []
 

@@ -27,6 +27,7 @@ from message.group_chat import GroupChat, GroupChatRegistry, MessageCenter, open
 from services.agent_heartbeat import HeartbeatCenter, load_heartbeat_configs
 from services.agent_update_scheduler import UpdateScheduler, UpdateTarget
 from services.event_logger import log_event
+from services.skill_loader import load_utils
 
 
 def _环境变量真值(name: str, default: bool) -> bool:
@@ -175,6 +176,13 @@ class ColonyRuntime:
                 name = str(getattr(agent, "name", "") or "").strip()
                 if name:
                     await self.ui_event("agent_status", agent_name=name, status="idle")
+            for role_key, agent in iter_role_agents(self.colony):
+                if agent is None:
+                    continue
+                toolkit = getattr(agent, "toolkit", None)
+                if toolkit is None:
+                    continue
+                await self._emit_toolkit_snapshot(role_key=role_key, agent=agent)
 
         self._started = True
         self._memory_warmed = False
@@ -351,14 +359,49 @@ class ColonyRuntime:
 
         agent = self._get_agent_by_role_key(role_key=rk)
         marker = "\n\n# 长期记忆使用规则\n"
-        old_full = str(getattr(agent, "sys_prompt", "") or "")
+        if not hasattr(agent, "_sys_prompt"):
+            raise AttributeError("agent has no _sys_prompt")
+        old_full = str(getattr(agent, "_sys_prompt", "") or "")
         if marker in old_full:
             tail = old_full[old_full.index(marker) :]
             new_full = f"{new_base}{tail}"
         else:
             new_full = new_base
-        setattr(agent, "sys_prompt", new_full)
+        setattr(agent, "_sys_prompt", new_full)
         return new_full
+
+    async def reload_role_utils(self, *, role_key: str) -> dict[str, list[str]]:
+        rk = str(role_key or "").strip()
+        if not rk:
+            raise ValueError("role_key is required")
+        agent = self._get_agent_by_role_key(role_key=rk)
+        toolkit = getattr(agent, "toolkit", None)
+        if toolkit is None:
+            raise AttributeError(f"agent for role_key={rk} has no toolkit")
+        loaded = load_utils(toolkit, role_key=rk)
+        if self._enable_ui_events:
+            await self._emit_toolkit_snapshot(role_key=rk, agent=agent, loaded=loaded)
+        return loaded
+
+    async def _emit_toolkit_snapshot(
+        self,
+        *,
+        role_key: str,
+        agent: Any,
+        loaded: dict[str, list[str]] | None = None,
+    ) -> None:
+        toolkit = getattr(agent, "toolkit", None)
+        if toolkit is None:
+            return
+        agent_name = str(getattr(agent, "name", "") or "").strip()
+        groups = sorted([str(k) for k in list(getattr(toolkit, "groups", {}).keys())])
+        skills = sorted([g.split("skill:", 1)[1] for g in groups if str(g).startswith("skill:") and len(str(g)) > 6])
+        tools = sorted([g.split("tool:", 1)[1] for g in groups if str(g).startswith("tool:") and len(str(g)) > 5])
+        payload: dict[str, Any] = {"role_key": str(role_key), "agent_name": agent_name, "groups": groups, "skills": skills}
+        payload["tools"] = tools
+        if loaded is not None:
+            payload["loaded"] = loaded
+        await self.ui_event("toolkit_snapshot", **payload)
 
     async def submit_user_text(self, text: str) -> str:
         if not self._started:

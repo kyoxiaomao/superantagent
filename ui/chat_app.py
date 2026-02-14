@@ -98,7 +98,7 @@ def main() -> None:
     avatars = AvatarStore(avatar_dir, size=44)
 
     # 组装 UI：主对话窗体 + 群聊条目 + 各智能体条目（包含头像与状态）
-    dialog = ChatDialog(title="蚂蚁桌宠群聊", queen_name=data_center.queen_name, data_center=data_center)
+    dialog = ChatDialog(title="蚂蚁桌宠群聊", queen_name=data_center.queen_name, data_center=data_center, bridge=bridge)
     close_trace_t0: float | None = None
 
     agent_names = list(data_center.agent_names or [])
@@ -162,6 +162,20 @@ def main() -> None:
             status = str(p.get("status") or "")
             dialog.ensure_agent_item(name=agent_name, avatar=_get_avatar(agent_name))
             dialog.update_agent_status(name=agent_name, status=status)
+            return
+
+        if t == "toolkit_snapshot":
+            agent_name = str(p.get("agent_name") or "")
+            skills = p.get("skills")
+            tools = p.get("tools")
+            groups = p.get("groups")
+            dialog.ensure_agent_item(name=agent_name, avatar=_get_avatar(agent_name))
+            dialog.update_agent_equipped(
+                name=agent_name,
+                skills=[str(x) for x in skills] if isinstance(skills, list) else None,
+                tools=[str(x) for x in tools] if isinstance(tools, list) else None,
+                groups=[str(x) for x in groups] if isinstance(groups, list) else None,
+            )
             return
 
         if t == "user_reply_stream":

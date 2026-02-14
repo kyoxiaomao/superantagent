@@ -174,7 +174,9 @@ SuperAntAgent 是一个桌宠式多智能体群聊系统：在一个 Tkinter UI 
    - 兵蚁 toolkit 注册 `save_skill_script/save_skill_doc/list_skills` 三个工具（见 [soldier/agent.py](file:///d:/SuperAntAgent/agents/soldier/agent.py#L18-L60)）  
    - 实际落盘由 `services/skill_loader.safe_write_skill_file/safe_write_skill_doc` 完成（见 [skill_loader.py](file:///d:/SuperAntAgent/services/skill_loader.py#L19-L60)）
 4. 工蚁动态加载技能  
-   - `load_skills(toolkit, role_key=...)` 遍历 `agents/skills/<role_key>/*.py`，加载模块并调用其 `register(toolkit)` 注册工具函数（见 [skill_loader.py](file:///d:/SuperAntAgent/services/skill_loader.py#L72-L92)）
+   - `load_utils(toolkit, role_key=...)` 扫描该 role_key 对应的 agent_home 装备库：  
+     - skills：遍历 `agent_home/skills/<skill>/skill.py`，加载模块并调用其 `register(toolkit)` 注册工具函数  
+     - tools：扫描 `agent_home/tools/<tool>/tool.md | tool.json` 形成工具工件索引（供 UI 展示与后续编排执行）
 5. 工蚁执行工具  
    - 工蚁 agent 的 toolkit 已包含新注册函数；后续 ReActAgent 会在推理中调用工具完成任务（工具调用块会在 `ant_agent_base` 的 pre_print hook 中被捕获并沉淀工具记忆，见 [ant_agent_base.py](file:///d:/SuperAntAgent/agents/base/ant_agent_base.py#L275-L301)）
 
@@ -245,16 +247,21 @@ SuperAntAgent 是一个桌宠式多智能体群聊系统：在一个 Tkinter UI 
 **agents/worker/**
 
 - [agents/worker/__init__.py](file:///d:/SuperAntAgent/agents/worker/__init__.py)：导出三类工蚁创建函数。
-- [agents/worker/browser_worker.py](file:///d:/SuperAntAgent/agents/worker/browser_worker.py)：浏览器工蚁工厂；初始化时加载 `agents/skills/browser_worker` 动态技能；提供 reload/list 工具。
-- [agents/worker/doc_worker.py](file:///d:/SuperAntAgent/agents/worker/doc_worker.py)：文档工蚁工厂；初始化时加载 `agents/skills/doc_worker` 动态技能；提供 reload/list 工具。
+- [agents/worker/browser_worker.py](file:///d:/SuperAntAgent/agents/worker/browser_worker.py)：浏览器工蚁工厂；初始化时加载其个人装备库（skills/tools）；提供 reload/list 工具。
+- [agents/worker/doc_worker.py](file:///d:/SuperAntAgent/agents/worker/doc_worker.py)：文档工蚁工厂；初始化时加载其个人装备库（skills/tools）；提供 reload/list 工具。
 - [agents/worker/emotion_worker.py](file:///d:/SuperAntAgent/agents/worker/emotion_worker.py)：情感工蚁工厂；无专属工具，仅负责陪伴式回应。
 - [agents/worker/tools/__init__.py](file:///d:/SuperAntAgent/agents/worker/tools/__init__.py)：工具子包占位。
 
-**agents/skills/**（动态技能目录，运行时可写入）
+**agents/**/<agent_home>/skills/**（agent 个人技能库，运行时可写入）
 
-- [agents/skills/__init__.py](file:///d:/SuperAntAgent/agents/skills/__init__.py)：技能包占位。
-- [agents/skills/browser_worker/doc_io.py](file:///d:/SuperAntAgent/agents/skills/browser_worker/doc_io.py)：示例技能脚本：受限的仓库内文档读写（仅允许相对路径、白名单扩展名、限制读写大小），通过 `register(toolkit)` 注册三个工具函数。
-- [agents/skills/browser_worker/doc_io.md](file:///d:/SuperAntAgent/agents/skills/browser_worker/doc_io.md)：上面 doc_io 技能的使用说明文档（接口与边界）。
+- 示例：`agents/worker/Worker_Light/skills/`、`agents/worker/Worker_Reed/skills/`（初始为空，`.gitkeep` 占位）
+- 约定：每个技能一个独立目录 `agent_home/skills/<skill_key>/`，包含 `skill.py + skill.md`；`skill.py` 必须提供 `register(toolkit)`。
+- agent_home 定位规则：通过 role_key 扫描 `agents/**/agent.py` 找到对应目录（见 [agent_home_locator.py](file:///d:/SuperAntAgent/utils/agent_home_locator.py#L10-L47)）。
+
+**agents/**/<agent_home>/tools/**（agent 个人工具库/复合工具库，运行时可写入）
+
+- 示例：`agents/worker/Worker_Light/tools/`、`agents/worker/Worker_Reed/tools/`（初始为空，`.gitkeep` 占位）
+- 约定：每个工具一个独立目录 `agent_home/tools/<tool_key>/`，包含 `tool.md + tool.json`（结构见 [alltool/README.md](file:///d:/SuperAntAgent/utils/alltool/README.md#L1-L57)）。
 
 ### 4.5 services/（运行时、调度与系统服务）
 
@@ -264,9 +271,9 @@ SuperAntAgent 是一个桌宠式多智能体群聊系统：在一个 Tkinter UI 
 - [services/agent_update_scheduler.py](file:///d:/SuperAntAgent/services/agent_update_scheduler.py)：update 调度器；为每个 role 创建独立 asyncio task，按 interval 调用 `agent.update(ctx)`，并在崩溃时退避重启。
 - [services/agent_heartbeat.py](file:///d:/SuperAntAgent/services/agent_heartbeat.py)：心跳中心；接收 `report_tick` 上报、判定健康变化并可向 UI 推送 `agent_health/error`。
 - [services/event_logger.py](file:///d:/SuperAntAgent/services/event_logger.py)：结构化事件日志（JSONL）；提供 `log_event/log_msg`，支持裁剪与按 LOG_THINKING 控制思考日志。
-- [services/skill_loader.py](file:///d:/SuperAntAgent/services/skill_loader.py)：动态技能管理；安全写入 `agents/skills/<role_key>/` 并动态加载 `register(toolkit)`。
+- [services/skill_loader.py](file:///d:/SuperAntAgent/services/skill_loader.py)：agent 装备库（skills/tools）管理；安全写入 `agent_home/skills/` 并扫描加载到 toolkit（工具函数注册在 `register(toolkit)` 中完成）。
 - [services/role_config_store.py](file:///d:/SuperAntAgent/services/role_config_store.py)：角色配置读写（读取/校验/原子写回 `agent_configs.yaml` 与 `system_prompts.yaml`），供 UI 编辑器使用。
-- [services/startup_cleanup.py](file:///d:/SuperAntAgent/services/startup_cleanup.py)：启动清理；当 `ANT_RESET_ON_START=true` 时清理动态数据（skills/docs/logs/chatdata 等），便于测试回归。
+- [services/startup_cleanup.py](file:///d:/SuperAntAgent/services/startup_cleanup.py)：启动清理；当 `ANT_RESET_ON_START=true` 时清理测试数据（memory/chatdata/docs/generated/logs 等），便于测试回归（不影响 agents/**/skills 与 agents/**/tools 装备库）。
 
 ### 4.6 ui/（桌面 UI 与桥接）
 
@@ -315,7 +322,7 @@ SuperAntAgent 是一个桌宠式多智能体群聊系统：在一个 Tkinter UI 
 - [models/embedding_model.py](file:///d:/SuperAntAgent/models/embedding_model.py)：DashScope `qwen3-vl-embedding` 的文本嵌入适配（内部转为多模态 embedding 调用以兼容 VL embedding）。
 - [models/multimodal_embedding_model.py](file:///d:/SuperAntAgent/models/multimodal_embedding_model.py)：多模态 embedding 适配器（与向量库解耦，reme 不支持多模态，故单独提供）。
 
-### 4.11 utils/（技能/工具工件目录与扫描器）
+### 4.11 utils/（装备库：共享技能/工具工件库与扫描器）
 
 - [utils/__init__.py](file:///d:/SuperAntAgent/utils/__init__.py)：utils 占位说明（建议优先复用 agentscope/标准库）。
 - [utils/skill_tool_catalog.py](file:///d:/SuperAntAgent/utils/skill_tool_catalog.py)：扫描与解析技能/工具工件：
@@ -393,8 +400,9 @@ SuperAntAgent 是一个桌宠式多智能体群聊系统：在一个 Tkinter UI 
 两种路径：
 
 - 动态技能（推荐用于“可生成/可热加载”的工具）：
-  - 通过兵蚁工具写入 `agents/skills/<role_key>/<skill>.py`，脚本必须提供 `register(toolkit)` 并在其中 `register_tool_function(...)`
-  - 工蚁启动或调用 reload 后由 `services.skill_loader.load_skills()` 动态加载
+  - 通过兵蚁工具写入目标 agent 的个人装备库 `agent_home/skills/<skill_key>/skill.py | skill.md`（agent_home 由 role_key 扫描定位）
+  - `skill.py` 必须提供 `register(toolkit)` 并在其中 `register_tool_function(...)`
+  - 工蚁启动或调用 reload 后由 `services.skill_loader.load_utils()` 扫描加载（同时会扫描 `agent_home/tools/` 形成工具工件索引）
 - 工件技能（推荐用于“可维护的稳定技能库”）：
   - 按约定写入 `utils/allskill/<skill>/skill.md + skill.py`
-  - 用聊天 UI 的“工具库”页签装配到某个角色（对应写入 `agents/**/skills` 或 `agents/**/tools`）
+  - 用聊天 UI 的“工具库”页签装配到某个角色（即把共享工件安装到该角色的 `agent_home/skills` 或 `agent_home/tools`）

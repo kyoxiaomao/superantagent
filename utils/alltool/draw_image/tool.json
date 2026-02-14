@@ -1,0 +1,17 @@
+{
+  "name": "draw_image",
+  "title": "简易画图工具",
+  "steps": [
+    {
+      "skill": "draw_image",
+      "interface": "draw_image",
+      "note": "生成 PNG（白底+文本）",
+      "params": {
+        "prompt": "一只蚂蚁戴着头盔",
+        "save_path": "docs/generated/draw_image_demo.png",
+        "width": 768,
+        "height": 512
+      }
+    }
+  ]
+}

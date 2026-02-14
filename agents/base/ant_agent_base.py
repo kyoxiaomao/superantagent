@@ -22,6 +22,7 @@ from message import make_msg, msg_to_text
 from memory import build_memory_bundle
 from services import ModelBundle
 from services.event_logger import log_event, log_msg
+from services.skill_loader import load_utils
 
 
 def _load_yaml(path: str) -> dict[str, Any]:
@@ -74,6 +75,7 @@ def create_react_ant_agent(
     cfg = load_agent_config(role_key)
     mem = build_memory_bundle(role_key=role_key, agent_name=cfg.name)
     tk = toolkit or Toolkit()
+    load_utils(tk, role_key=str(role_key))
 
     memory_rules = (
         "\n\n# 长期记忆使用规则\n"
