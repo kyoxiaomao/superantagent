@@ -10,9 +10,18 @@ import tkinter as tk
 from tkinter import ttk
 from typing import Callable
 
+from ui.data_center import DataCenter
+from ui.tool_library_panel import ToolLibraryPanel
+
 
 class ChatDialog:
-    def __init__(self, *, title: str = "蚂蚁桌宠对话框") -> None:
+    def __init__(self, *, title: str = "蚂蚁桌宠对话框", queen_name: str, data_center: DataCenter) -> None:
+        queen_name = str(queen_name or "").strip()
+        if not queen_name:
+            raise ValueError("queen_name is required")
+        self.queen_name = queen_name
+        self.data_center = data_center
+
         self.root = tk.Tk()
         self.root.title(title)
         self.root.geometry("1220x620")
@@ -21,7 +30,7 @@ class ChatDialog:
         self._on_refresh_db: Callable[[], None] | None = None
 
         self.status_var = tk.StringVar(value="运行中")
-        self.系统信息变量 = tk.StringVar(value="")
+        self.system_info_var = tk.StringVar(value="")
         self._agent_rows: dict[str, str] = {}
         self._agent_state: dict[str, dict[str, object]] = {}
         self._view_frames: dict[str, ttk.Frame] = {}
@@ -32,11 +41,11 @@ class ChatDialog:
         self._current_view: str | None = None
         self.entry: ttk.Entry | None = None
         # 用户回复的流式渲染状态：仅用于 UI 增量追加，避免重复插入整段文本
-        self._回复流式激活: dict[str, bool] = {}
-        self._回复流式全文: dict[str, str] = {}
-        self.标签变量: tk.StringVar | None = None
-        self.标签下拉: ttk.Combobox | None = None
-        self.标签选项: list[str] = ["聊天", "任务", "话题", "请教", "总结", "计划", "提醒", "复盘", "决策", "闲聊", "记录", "待办"]
+        self._reply_stream_active: dict[str, bool] = {}
+        self._reply_stream_full_text: dict[str, str] = {}
+        self.tag_var: tk.StringVar | None = None
+        self.tag_dropdown: ttk.Combobox | None = None
+        self.tag_options: list[str] = ["聊天", "任务", "话题", "请教", "总结", "计划", "提醒", "复盘", "决策", "闲聊", "记录", "待办"]
         self._build()
 
     def _build(self) -> None:
@@ -45,11 +54,19 @@ class ChatDialog:
 
         self._notebook = ttk.Notebook(self.root)
         self._notebook.grid(row=0, column=0, sticky="nsew")
+        self._tab_tool_library = ttk.Frame(self._notebook)
         self._tab_main = ttk.Frame(self._notebook)
         self._tab_db = ttk.Frame(self._notebook)
+        
         self._notebook.add(self._tab_main, text="主界面")
         self._notebook.add(self._tab_db, text="数据库")
+        self._notebook.add(self._tab_tool_library, text="工具库")
         self._notebook.bind("<<NotebookTabChanged>>", self._on_tab_changed)
+
+        self._tab_tool_library.columnconfigure(0, weight=1)
+        self._tab_tool_library.rowconfigure(0, weight=1)
+        tool_panel = ToolLibraryPanel(self._tab_tool_library, data_center=self.data_center)
+        tool_panel.grid(row=0, column=0, sticky="nsew")
 
         self._tab_main.columnconfigure(0, weight=1)
         self._tab_main.rowconfigure(0, weight=0)
@@ -117,18 +134,19 @@ class ChatDialog:
         sys_bar.grid(row=2, column=0, sticky="ew", padx=10, pady=(0, 10))
         sys_bar.columnconfigure(1, weight=1)
         ttk.Label(sys_bar, text="系统：").grid(row=0, column=0, sticky="w")
-        ttk.Label(sys_bar, textvariable=self.系统信息变量, anchor="w").grid(row=0, column=1, sticky="ew")
+        ttk.Label(sys_bar, textvariable=self.system_info_var, anchor="w").grid(row=0, column=1, sticky="ew")
 
         self._tab_db.columnconfigure(0, weight=1)
         self._tab_db.rowconfigure(0, weight=1)
         self._db_panel = None
+        self._notebook.select(self._tab_tool_library)
 
-    def 更新系统消息(self, *, text: str) -> None:
+    def update_system_message(self, *, text: str) -> None:
         content = str(text or "").strip()
         if not content:
             return
         content = " ".join(content.splitlines()).strip()
-        self.系统信息变量.set(content)
+        self.system_info_var.set(content)
 
     def set_on_send(self, callback: Callable[[str], None]) -> None:
         self._on_send = callback
@@ -201,7 +219,7 @@ class ChatDialog:
 
     def add_user_message(self, *, text: str) -> None:
         self._ensure_queen_view()
-        widget = self._view_texts.get("agent:蚁后_瑟拉")
+        widget = self._view_texts.get(f"agent:{self.queen_name}")
         if widget is None:
             return
         content = (text or "").rstrip()
@@ -214,7 +232,7 @@ class ChatDialog:
 
     def add_user_reply(self, *, name: str, text: str, avatar: object | None = None) -> None:
         self._ensure_queen_view()
-        widget = self._view_texts.get("agent:蚁后_瑟拉")
+        widget = self._view_texts.get(f"agent:{self.queen_name}")
         if widget is None:
             return
         agent_name = str(name or "蚂蚁")
@@ -222,8 +240,8 @@ class ChatDialog:
         if not final_text:
             return
 
-        if self._回复流式激活.get(agent_name):
-            streamed = str(self._回复流式全文.get(agent_name) or "")
+        if self._reply_stream_active.get(agent_name):
+            streamed = str(self._reply_stream_full_text.get(agent_name) or "")
             widget.configure(state="normal")
             if final_text.startswith(streamed):
                 tail = final_text[len(streamed) :]
@@ -236,8 +254,8 @@ class ChatDialog:
             widget.insert("end", "\n\n")
             widget.configure(state="disabled")
             widget.see("end")
-            self._回复流式激活[agent_name] = False
-            self._回复流式全文[agent_name] = ""
+            self._reply_stream_active[agent_name] = False
+            self._reply_stream_full_text[agent_name] = ""
             return
 
         self._add_to_text(widget, name=agent_name, text=final_text, avatar=avatar)
@@ -250,7 +268,7 @@ class ChatDialog:
         """
 
         self._ensure_queen_view()
-        widget = self._view_texts.get("agent:蚁后_瑟拉")
+        widget = self._view_texts.get(f"agent:{self.queen_name}")
         if widget is None:
             return
 
@@ -259,10 +277,10 @@ class ChatDialog:
         if not inc:
             return
 
-        first = not bool(self._回复流式激活.get(agent_name))
+        first = not bool(self._reply_stream_active.get(agent_name))
         if first:
-            self._回复流式激活[agent_name] = True
-            self._回复流式全文[agent_name] = ""
+            self._reply_stream_active[agent_name] = True
+            self._reply_stream_full_text[agent_name] = ""
 
         widget.configure(state="normal")
         if first:
@@ -273,7 +291,7 @@ class ChatDialog:
         widget.insert("end", inc)
         widget.configure(state="disabled")
         widget.see("end")
-        self._回复流式全文[agent_name] = str(self._回复流式全文.get(agent_name) or "") + inc
+        self._reply_stream_full_text[agent_name] = str(self._reply_stream_full_text.get(agent_name) or "") + inc
 
     def add_group_message(self, *, name: str, text: str, avatar: object | None = None) -> None:
         self._add_to_text(self._view_texts["group"], name=name, text=text, avatar=avatar)
@@ -367,21 +385,21 @@ class ChatDialog:
         self._view_texts[view_key] = text_widget
         self._view_header_vars[view_key] = {"status": status_var, "count": count_var}
 
-        if name == "蚁后_瑟拉":
+        if name == self.queen_name:
             footer = ttk.Frame(frame)
             footer.grid(row=2, column=0, sticky="ew", padx=6, pady=(0, 6))
             footer.columnconfigure(1, weight=1)
 
-            if self.标签变量 is None:
-                self.标签变量 = tk.StringVar(value="聊天")
-            self.标签下拉 = ttk.Combobox(
+            if self.tag_var is None:
+                self.tag_var = tk.StringVar(value="聊天")
+            self.tag_dropdown = ttk.Combobox(
                 footer,
-                textvariable=self.标签变量,
-                values=self.标签选项,
+                textvariable=self.tag_var,
+                values=self.tag_options,
                 state="readonly",
                 width=6,
             )
-            self.标签下拉.grid(row=0, column=0, sticky="w")
+            self.tag_dropdown.grid(row=0, column=0, sticky="w")
 
             self.entry = ttk.Entry(footer)
             self.entry.grid(row=0, column=1, sticky="ew", padx=(8, 0))
@@ -394,11 +412,8 @@ class ChatDialog:
         if avatar is not None:
             self._update_agent_view_avatar(name=name, avatar=avatar)
 
-    def _ensure_king_view(self) -> None:
-        self.ensure_agent_item(name="蚁王_特鲁", avatar=None)
-
     def _ensure_queen_view(self) -> None:
-        self.ensure_agent_item(name="蚁后_瑟拉", avatar=None)
+        self.ensure_agent_item(name=self.queen_name, avatar=None)
 
     def _update_agent_view_avatar(self, *, name: str, avatar: object | None = None) -> None:
         view_key = f"agent:{name}"

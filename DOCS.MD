@@ -31,7 +31,7 @@ SuperAntAgent 是一个桌宠式多智能体群聊系统：在一个 Tkinter UI 
 - 多智能体运行时：启动群聊会话、启动各角色心跳与更新调度、对外提供 `submit_user_text()`（见 [runtime.py](file:///d:/SuperAntAgent/services/runtime.py)）。
 - 动态技能闭环：缺工具 → 兵蚁生成脚本 → 写入 `agents/skills/` → 工蚁加载并注册到 Toolkit（见 [workflow.py](file:///d:/SuperAntAgent/services/workflow.py) + [skill_loader.py](file:///d:/SuperAntAgent/services/skill_loader.py)）。
 - 长期记忆：通过独立进程 `chromaserver` 托管 Chroma 向量库与 ReMe 记忆栈，主程序通过 HTTP 调用写入/检索（见 [chromaserver/server.py](file:///d:/SuperAntAgent/chromaserver/server.py) + [chromaserver/client.py](file:///d:/SuperAntAgent/chromaserver/client.py) + [memory/lazy_reme_memory.py](file:///d:/SuperAntAgent/memory/lazy_reme_memory.py)）。
-- 管理工具：向量库管理 UI、角色配置编辑器、技能/工具加载器（见 `ui/chroma_admin.py`、`ui/role_editor.py`、`ui/skill_tool_loader.py`）。
+- 管理工具：向量库管理 UI、角色配置编辑器（见 `ui/chroma_admin.py`、`ui/role_editor.py`）。
 
 ## 2. 总体架构
 
@@ -278,7 +278,7 @@ SuperAntAgent 是一个桌宠式多智能体群聊系统：在一个 Tkinter UI 
 - [ui/avatar_store.py](file:///d:/SuperAntAgent/ui/avatar_store.py)：头像加载与缓存（Pillow → Tk PhotoImage）。
 - [ui/chroma_admin.py](file:///d:/SuperAntAgent/ui/chroma_admin.py)：向量库管理 UI；保存/检测服务地址；启动/停止 `chromaserver`；初始化/清理库；展示 `/info` 返回的 collections 计数；打开日志目录。
 - [ui/role_editor.py](file:///d:/SuperAntAgent/ui/role_editor.py)：角色编辑器 UI；编辑 name/max_iters/heartbeat/system prompt；保存回 YAML（通过 `services/role_config_store`）。
-- [ui/skill_tool_loader.py](file:///d:/SuperAntAgent/ui/skill_tool_loader.py)：技能/工具加载器 UI；扫描 `utils/allskill` 与 `utils/alltool` 工件；可把技能复制到 `agents/skills/<role_key>/` 以“分配给 agent”。
+- 技能/工具装配：已集成到聊天 UI 的“工具库”页签，通过 DataCenter 统一管理装配/卸载与搜索。
 - [ui/components/__init__.py](file:///d:/SuperAntAgent/ui/components/__init__.py)：组件子包占位。
 
 ### 4.7 chromaserver/（向量库服务）
@@ -397,4 +397,4 @@ SuperAntAgent 是一个桌宠式多智能体群聊系统：在一个 Tkinter UI 
   - 工蚁启动或调用 reload 后由 `services.skill_loader.load_skills()` 动态加载
 - 工件技能（推荐用于“可维护的稳定技能库”）：
   - 按约定写入 `utils/allskill/<skill>/skill.md + skill.py`
-  - 用 `ui/skill_tool_loader.py` 复制分配给某个 agent（复制到 `agents/skills/<role_key>/`）
+  - 用聊天 UI 的“工具库”页签装配到某个角色（对应写入 `agents/**/skills` 或 `agents/**/tools`）

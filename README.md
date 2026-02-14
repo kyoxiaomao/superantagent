@@ -94,10 +94,6 @@ python main.py
   ```powershell
   python -m ui.role_editor
   ```
-- 技能/工具加载器：  
-  ```powershell
-  python -m ui.skill_tool_loader
-  ```
 
 ## 6. 数据与日志目录
 

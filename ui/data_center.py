@@ -13,14 +13,16 @@ from __future__ import annotations
 import json
 import os
 import queue
+import shutil
 import threading
 import time
 from dataclasses import dataclass
-from typing import Any, Callable, Dict, List, Optional, Tuple
-
-import yaml
+from typing import Any, Callable, Dict, List, Literal, Optional, Tuple
 
 from message.group_chat import MessageCenter
+from services.role_config_store import RoleInfo, load_roles
+from utils.agent_home_locator import get_agent_skill_dir, get_agent_tool_dir
+from utils.skill_tool_catalog import CompositeToolArtifact, SkillArtifact, SkillToolCatalog, load_catalog
 
 
 @dataclass(frozen=True)
@@ -50,6 +52,38 @@ class DataSnapshot:
     last_error: str | None
 
 
+@dataclass(frozen=True)
+class RoleProfile:
+    role_key: str
+    name: str
+    max_iters: int
+    heartbeat: dict[str, Any]
+    sys_prompt: str
+    tags: list[str]
+    installed_skills: list[str]
+    installed_tools: list[str]
+
+
+@dataclass(frozen=True)
+class CatalogCard:
+    kind: Literal["skill", "tool"]
+    key: str
+    title: str
+    summary: str
+    interfaces_or_steps: int
+    is_installed: bool
+
+
+@dataclass(frozen=True)
+class ToolLibrarySnapshot:
+    mode: Literal["library", "role"]
+    role_key: str
+    type_filter: Literal["all", "skill", "tool"]
+    query: str
+    roles: list[RoleProfile]
+    cards: list[CatalogCard]
+
+
 class DataCenter:
     """
     数据调度中心。
@@ -65,7 +99,12 @@ class DataCenter:
 
         self.agent_names: List[str] = []
         self.role_to_name: Dict[str, str] = {}
-        self.蚁后名 = "蚁后_瑟拉"
+        self.queen_name: str = ""
+        self.roles: dict[str, RoleInfo] = {}
+        self._roster_tags: dict[str, list[str]] = {}
+        self._catalog: SkillToolCatalog | None = None
+        self._skill_map: dict[str, SkillArtifact] = {}
+        self._tool_map: dict[str, CompositeToolArtifact] = {}
 
         self._subscribers: List[Callable[[DataEvent], None]] = []
         self._raw_queue: "queue.Queue[Tuple[str, Dict[str, Any]]]" = queue.Queue()
@@ -80,15 +119,12 @@ class DataCenter:
         self._message_center = MessageCenter(base_dir=self.base_dir)
 
     def start(self) -> None:
-        try:
-            self.role_to_name, self.agent_names = self._load_static_agents(base_dir=self.base_dir)
-        except Exception as e:
-            err = f"加载静态智能体配置失败：{e}"
-            with self._lock:
-                self._snapshot.last_error = err
-            self._emit(DataEvent(type="error", payload={"error": err}))
-            raise
-        self.蚁后名 = self.role_to_name["queen"]
+        self.roles, self.role_to_name, self.agent_names = self._load_static_roles(base_dir=self.base_dir)
+        self.queen_name = self.role_to_name["queen_sera"]
+        self._roster_tags = self._load_ant_roster_tags(base_dir=self.base_dir)
+        self._catalog = load_catalog(repo_root=self.base_dir)
+        self._skill_map = {s.key: s for s in self._catalog.skills}
+        self._tool_map = {t.key: t for t in self._catalog.tools}
         self._emit(DataEvent(type="static_ready", payload={"agent_names": list(self.agent_names), "role_to_name": dict(self.role_to_name)}))
         self._startup_events = self._load_history_events()
 
@@ -106,10 +142,7 @@ class DataCenter:
         with self._lock:
             subs = list(self._subscribers)
         for cb in subs:
-            try:
-                cb(ev)
-            except Exception:
-                pass
+            cb(ev)
 
     def push_ui_user_text(self, *, text: str) -> None:
         """
@@ -120,7 +153,8 @@ class DataCenter:
         - 数据中心通过该信号，决定将蚁后的普通打印消息视作“用户回复流式片段”，并只输出增量。
         """
 
-        _ = text
+        if not isinstance(text, str):
+            raise TypeError("text must be str")
         self._raw_queue.put(("ui_user_text", {"ts": time.time()}))
 
     def push_runtime_message(
@@ -189,39 +223,31 @@ class DataCenter:
 
     def _load_history_events(self) -> List[DataEvent]:
         events: List[DataEvent] = []
-        try:
-            uq = self._message_center.load_user_queen_history(days_back=1)
-            for it in uq:
-                role = str(it.get("role") or "")
-                name = str(it.get("name") or "")
-                text = str(it.get("content") or "")
-                if not text.strip():
-                    continue
-                if role == "user":
-                    events.append(DataEvent(type="user_message", payload={"text": text}))
-                else:
-                    agent_name = name or self.蚁后名
-                    events.append(DataEvent(type="user_reply", payload={"agent_name": agent_name, "text": text}))
-        except Exception:
-            pass
-        try:
-            gc = self._message_center.load_group_chat_history(days_back=1)
-            for it in gc:
-                name = str(it.get("name") or "")
-                content = it.get("content")
-                if isinstance(content, str):
-                    text = content
-                else:
-                    try:
-                        text = json.dumps(content, ensure_ascii=False)
-                    except Exception:
-                        text = str(content)
-                if not text.strip():
-                    continue
-                events.append(DataEvent(type="group_message", payload={"agent_name": name, "text": text}))
-                events.append(DataEvent(type="agent_message", payload={"agent_name": name, "text": text}))
-        except Exception:
-            pass
+        uq = self._message_center.load_user_queen_history(days_back=1)
+        for it in uq:
+            role = str(it.get("role") or "")
+            name = str(it.get("name") or "")
+            text = str(it.get("content") or "")
+            if not text.strip():
+                continue
+            if role == "user":
+                events.append(DataEvent(type="user_message", payload={"text": text}))
+            else:
+                agent_name = name or self.queen_name
+                events.append(DataEvent(type="user_reply", payload={"agent_name": agent_name, "text": text}))
+
+        gc = self._message_center.load_group_chat_history(days_back=1)
+        for it in gc:
+            name = str(it.get("name") or "")
+            content = it.get("content")
+            if isinstance(content, str):
+                text = content
+            else:
+                text = json.dumps(content, ensure_ascii=False)
+            if not text.strip():
+                continue
+            events.append(DataEvent(type="group_message", payload={"agent_name": name, "text": text}))
+            events.append(DataEvent(type="agent_message", payload={"agent_name": name, "text": text}))
         return events
 
     def _process_runtime_msg(self, payload: Dict[str, Any]) -> List[DataEvent]:
@@ -236,7 +262,7 @@ class DataCenter:
         if ui_event:
             return self._process_ui_event(ui_event=ui_event, text=text, md=md)
 
-        if self._stream_active and name == self.蚁后名 and role == "assistant":
+        if self._stream_active and name == self.queen_name and role == "assistant":
             key = str(msg_id or self._fallback_stream_key(name=name, role=role))
             delta, full = self._stream_delta(key=key, full_text=text)
             if delta:
@@ -307,10 +333,7 @@ class DataCenter:
                 msg = "向量数据库预热中（后台执行，不影响界面）。" if not url else f"向量数据库预热中（{url}）"
             elif status == "ok":
                 cost_ms = md.get("cost_ms")
-                try:
-                    ms = float(cost_ms) if cost_ms is not None else None
-                except Exception:
-                    ms = None
+                ms = float(cost_ms) if cost_ms is not None else None
                 msg = "向量数据库预热完成。" if ms is None else f"向量数据库预热完成，耗时 {ms:.0f}ms。"
                 if url:
                     msg = f"{msg}（{url}）"
@@ -351,10 +374,7 @@ class DataCenter:
             streamed = str(self._stream_last_text or "").strip()
             if streamed and len(streamed) > len(reply_text) + 20:
                 reply_text = streamed
-            try:
-                self._message_center.append_user_queen(role="assistant", name=agent_name, content=str(reply_text or "").strip())
-            except Exception:
-                pass
+            self._message_center.append_user_queen(role="assistant", name=agent_name, content=str(reply_text or "").strip())
             self._stream_active = False
             self._stream_key = None
             self._stream_last_text = ""
@@ -394,33 +414,226 @@ class DataCenter:
         with self._lock:
             return DataSnapshot(agent_status=dict(self._snapshot.agent_status), last_error=self._snapshot.last_error)
 
-    def _load_static_agents(self, *, base_dir: str) -> tuple[Dict[str, str], List[str]]:
-        """
-        从配置加载用于 UI 展示的智能体名称列表。
-
-        - 优先读取 configs/agent_configs.yaml 中各 role 的 `name`
-        - 若读取失败则抛出异常
-        """
-
+    def _load_static_roles(self, *, base_dir: str) -> tuple[dict[str, RoleInfo], Dict[str, str], List[str]]:
+        roles = load_roles(base_dir)
         role_order = ["queen_sera", "king_tru", "soldier_ares", "worker_light", "worker_nova", "worker_reed"]
-        path = os.path.join(base_dir, "configs", "agent_configs.yaml")
-        if not os.path.exists(path):
-            raise FileNotFoundError(f"未找到配置文件：{path}")
-
-        with open(path, "r", encoding="utf-8") as f:
-            data = yaml.safe_load(f)
-        if not isinstance(data, dict):
-            raise ValueError("agent_configs.yaml 内容格式不正确，应为字典结构")
-
-        role_to_name: Dict[str, str] = {}
-        names: List[str] = []
         for k in role_order:
-            if k not in data or not isinstance(data.get(k), dict):
+            if k not in roles:
                 raise KeyError(f"缺少角色配置：{k}")
-            cfg = data.get(k) or {}
-            n = str(cfg.get("name") or "").strip()
-            if not n:
-                raise ValueError(f"角色 {k} 缺少名称配置")
-            role_to_name[k] = n
-            names.append(role_to_name[k])
-        return role_to_name, names
+        role_to_name: Dict[str, str] = {k: str(roles[k].name) for k in role_order}
+        agent_names: List[str] = [role_to_name[k] for k in role_order]
+        return roles, role_to_name, agent_names
+
+    def _load_ant_roster_tags(self, *, base_dir: str) -> dict[str, list[str]]:
+        roster_path = os.path.join(base_dir, "agents", "ant_roster.jsonl")
+        if not os.path.exists(roster_path):
+            raise FileNotFoundError(f"未找到名册文件：{roster_path}")
+        out: dict[str, list[str]] = {}
+        with open(roster_path, "r", encoding="utf-8") as f:
+            for raw in f:
+                line = raw.strip()
+                if not line:
+                    continue
+                obj = json.loads(line)
+                if not isinstance(obj, dict):
+                    raise ValueError("ant_roster.jsonl 行格式不正确，应为 JSON 对象。")
+                role_key = str(obj.get("role_key") or "").strip()
+                if not role_key:
+                    continue
+                tags_raw = obj.get("tags") or []
+                if tags_raw is None:
+                    tags_raw = []
+                if not isinstance(tags_raw, list):
+                    raise ValueError(f"{role_key} 的 tags 字段格式不正确，应为数组。")
+                tags = [str(t).strip() for t in tags_raw if str(t).strip()]
+                out[role_key] = tags
+        return out
+
+    def list_installed_skills(self, *, role_key: str) -> set[str]:
+        rk = str(role_key or "").strip()
+        if not rk:
+            raise ValueError("role_key is required")
+        skills_dir = get_agent_skill_dir(repo_root=self.base_dir, role_key=rk)
+        if not os.path.isdir(skills_dir):
+            return set()
+        return {name for name in os.listdir(skills_dir) if os.path.isdir(os.path.join(skills_dir, name))}
+
+    def list_installed_tools(self, *, role_key: str) -> set[str]:
+        rk = str(role_key or "").strip()
+        if not rk:
+            raise ValueError("role_key is required")
+        tools_dir = get_agent_tool_dir(repo_root=self.base_dir, role_key=rk)
+        if not os.path.isdir(tools_dir):
+            return set()
+        return {name for name in os.listdir(tools_dir) if os.path.isdir(os.path.join(tools_dir, name))}
+
+    def get_role_profiles(self) -> list[RoleProfile]:
+        out: list[RoleProfile] = []
+        for role_key, role in self.roles.items():
+            skills = sorted(self.list_installed_skills(role_key=role_key))
+            tools = sorted(self.list_installed_tools(role_key=role_key))
+            tags = list(self._roster_tags.get(role_key) or [])
+            out.append(
+                RoleProfile(
+                    role_key=str(role_key),
+                    name=str(role.name),
+                    max_iters=int(role.max_iters),
+                    heartbeat=dict(role.heartbeat or {}),
+                    sys_prompt=str(role.sys_prompt),
+                    tags=tags,
+                    installed_skills=skills,
+                    installed_tools=tools,
+                )
+            )
+        out.sort(key=lambda r: r.role_key)
+        return out
+
+    def _extract_summary(self, md: str) -> str:
+        lines = (md or "").splitlines()
+        for line in lines:
+            s = str(line or "").strip()
+            if not s:
+                continue
+            if s.startswith("#"):
+                continue
+            if s.startswith("-"):
+                continue
+            return s[:160]
+        return ""
+
+    def get_tool_library_snapshot(
+        self,
+        *,
+        mode: Literal["library", "role"],
+        role_key: str,
+        type_filter: Literal["all", "skill", "tool"],
+        query: str,
+    ) -> ToolLibrarySnapshot:
+        rk = str(role_key or "").strip()
+        if not rk:
+            raise ValueError("role_key is required")
+        if rk not in self.roles:
+            raise KeyError(f"unknown role_key: {rk}")
+        q = str(query or "").strip().lower()
+        installed_skills = self.list_installed_skills(role_key=rk)
+        installed_tools = self.list_installed_tools(role_key=rk)
+
+        cards: list[CatalogCard] = []
+        if self._catalog is None:
+            raise RuntimeError("catalog not loaded")
+
+        if type_filter in {"all", "skill"}:
+            for s in self._catalog.skills:
+                is_installed = s.key in installed_skills
+                if mode == "role" and not is_installed:
+                    continue
+                hay = f"{s.key} {s.title} {s.doc_markdown}".lower()
+                if q and q not in hay:
+                    continue
+                cards.append(
+                    CatalogCard(
+                        kind="skill",
+                        key=s.key,
+                        title=s.title,
+                        summary=self._extract_summary(s.doc_markdown),
+                        interfaces_or_steps=len(s.interfaces),
+                        is_installed=is_installed,
+                    )
+                )
+
+        if type_filter in {"all", "tool"}:
+            for t in self._catalog.tools:
+                is_installed = t.key in installed_tools
+                if mode == "role" and not is_installed:
+                    continue
+                hay = f"{t.key} {t.title} {t.doc_markdown}".lower()
+                if q and q not in hay:
+                    continue
+                cards.append(
+                    CatalogCard(
+                        kind="tool",
+                        key=t.key,
+                        title=t.title,
+                        summary=self._extract_summary(t.doc_markdown),
+                        interfaces_or_steps=len(t.steps),
+                        is_installed=is_installed,
+                    )
+                )
+
+        cards.sort(key=lambda c: (c.kind, c.key.lower(), c.title))
+        return ToolLibrarySnapshot(
+            mode=mode,
+            role_key=rk,
+            type_filter=type_filter,
+            query=str(query or ""),
+            roles=self.get_role_profiles(),
+            cards=cards,
+        )
+
+    def install_skill(self, *, role_key: str, skill_key: str) -> None:
+        rk = str(role_key or "").strip()
+        sk = str(skill_key or "").strip()
+        if not rk:
+            raise ValueError("role_key is required")
+        if not sk:
+            raise ValueError("skill_key is required")
+        if rk not in self.roles:
+            raise KeyError(f"unknown role_key: {rk}")
+        art = self._skill_map.get(sk)
+        if art is None:
+            raise KeyError(f"unknown skill_key: {sk}")
+        dest_root = get_agent_skill_dir(repo_root=self.base_dir, role_key=rk)
+        os.makedirs(dest_root, exist_ok=True)
+        dest_dir = os.path.join(dest_root, sk)
+        if os.path.exists(dest_dir):
+            raise FileExistsError(dest_dir)
+        shutil.copytree(os.path.dirname(art.script_path), dest_dir)
+
+    def uninstall_skill(self, *, role_key: str, skill_key: str) -> None:
+        rk = str(role_key or "").strip()
+        sk = str(skill_key or "").strip()
+        if not rk:
+            raise ValueError("role_key is required")
+        if not sk:
+            raise ValueError("skill_key is required")
+        if rk not in self.roles:
+            raise KeyError(f"unknown role_key: {rk}")
+        dest_root = get_agent_skill_dir(repo_root=self.base_dir, role_key=rk)
+        dest_dir = os.path.join(dest_root, sk)
+        if not os.path.isdir(dest_dir):
+            raise FileNotFoundError(dest_dir)
+        shutil.rmtree(dest_dir)
+
+    def install_tool(self, *, role_key: str, tool_key: str) -> None:
+        rk = str(role_key or "").strip()
+        tk = str(tool_key or "").strip()
+        if not rk:
+            raise ValueError("role_key is required")
+        if not tk:
+            raise ValueError("tool_key is required")
+        if rk not in self.roles:
+            raise KeyError(f"unknown role_key: {rk}")
+        art = self._tool_map.get(tk)
+        if art is None:
+            raise KeyError(f"unknown tool_key: {tk}")
+        dest_root = get_agent_tool_dir(repo_root=self.base_dir, role_key=rk)
+        os.makedirs(dest_root, exist_ok=True)
+        dest_dir = os.path.join(dest_root, tk)
+        if os.path.exists(dest_dir):
+            raise FileExistsError(dest_dir)
+        shutil.copytree(os.path.dirname(art.spec_path), dest_dir)
+
+    def uninstall_tool(self, *, role_key: str, tool_key: str) -> None:
+        rk = str(role_key or "").strip()
+        tk = str(tool_key or "").strip()
+        if not rk:
+            raise ValueError("role_key is required")
+        if not tk:
+            raise ValueError("tool_key is required")
+        if rk not in self.roles:
+            raise KeyError(f"unknown role_key: {rk}")
+        dest_root = get_agent_tool_dir(repo_root=self.base_dir, role_key=rk)
+        dest_dir = os.path.join(dest_root, tk)
+        if not os.path.isdir(dest_dir):
+            raise FileNotFoundError(dest_dir)
+        shutil.rmtree(dest_dir)

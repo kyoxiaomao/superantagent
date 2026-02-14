@@ -137,9 +137,15 @@ async def _main_async() -> None:
     colony.disable_console_output()
     runtime = ColonyRuntime(colony=colony, enable_ui_events=False)
     await runtime.start()
+    from services.runtime_context import set_current_runtime
+
+    set_current_runtime(runtime)
 
     print("蚂蚁多智能体已启动。输入 exit 退出。")
-    await _input_loop(runtime)
+    try:
+        await _input_loop(runtime)
+    finally:
+        set_current_runtime(None)
 
 
 async def _input_loop(runtime: Any) -> None:

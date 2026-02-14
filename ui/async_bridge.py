@@ -285,6 +285,9 @@ class AsyncColonyBridge:
             self._log_startup("正在启动运行时与心跳调度")
             runtime = ColonyRuntime(colony=colony, enable_ui_events=True)
             self._runtime = runtime
+            from services.runtime_context import set_current_runtime
+
+            set_current_runtime(runtime)
 
             print_queue: asyncio.Queue[Any] = asyncio.Queue()
             for agent in runtime.participants:
@@ -305,6 +308,9 @@ class AsyncColonyBridge:
             log_event(event_type="runtime_crash", agent="system", payload={"error": err}, level="ERROR")
             self.data_center.push_runtime_message(name="ui", role="system", text=err, metadata={"ui_event": "error", "error": err})
         finally:
+            from services.runtime_context import set_current_runtime
+
+            set_current_runtime(None)
             if warmup_task is not None:
                 warmup_task.cancel()
                 await asyncio.gather(warmup_task, return_exceptions=True)

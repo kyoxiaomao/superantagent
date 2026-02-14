@@ -319,6 +319,47 @@ class ColonyRuntime:
     async def get_heartbeat_snapshot(self) -> dict[str, Any]:
         return await self._heartbeat_center.get_snapshot()
 
+    def _get_agent_by_role_key(self, *, role_key: str) -> Any:
+        rk = str(role_key or "").strip()
+        if not rk:
+            raise ValueError("role_key is required")
+        for k, agent in iter_role_agents(self.colony):
+            if k == rk:
+                if agent is None:
+                    raise RuntimeError(f"agent for role_key={rk} is None")
+                return agent
+        raise KeyError(f"unknown role_key: {rk}")
+
+    def apply_system_prompt(self, *, role_key: str) -> str:
+        """
+        热应用 system prompt：从配置读取最新 prompt，并更新运行中 Agent 的 sys_prompt。
+
+        注意：仅影响后续轮次；当前正在生成的回复不受影响。
+        """
+        rk = str(role_key or "").strip()
+        if not rk:
+            raise ValueError("role_key is required")
+        base_dir = os.path.dirname(os.path.dirname(__file__))
+        from services.role_config_store import load_roles
+
+        roles = load_roles(base_dir)
+        if rk not in roles:
+            raise KeyError(f"unknown role_key: {rk}")
+        new_base = str(getattr(roles[rk], "sys_prompt", "") or "")
+        if not new_base.strip():
+            raise ValueError("sys_prompt is empty")
+
+        agent = self._get_agent_by_role_key(role_key=rk)
+        marker = "\n\n# 长期记忆使用规则\n"
+        old_full = str(getattr(agent, "sys_prompt", "") or "")
+        if marker in old_full:
+            tail = old_full[old_full.index(marker) :]
+            new_full = f"{new_base}{tail}"
+        else:
+            new_full = new_base
+        setattr(agent, "sys_prompt", new_full)
+        return new_full
+
     async def submit_user_text(self, text: str) -> str:
         if not self._started:
             return ""
