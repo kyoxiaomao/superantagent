@@ -1,0 +1,76 @@
+{"ts": "2026-02-14 12:01:37.570", "run": "ui", "level": "INFO", "agent": "system", "event_type": "runtime_start", "payload": {"mode": "ui", "event_log": "D:\\SuperAntAgent\\logs\\events_ui_20260214_120137.jsonl"}}
+{"ts": "2026-02-14 12:01:37.581", "run": "ui", "level": "INFO", "agent": "蚁王_特鲁", "event_type": "agent_created", "payload": {"role_key": "king"}}
+{"ts": "2026-02-14 12:01:37.588", "run": "ui", "level": "INFO", "agent": "蚁后_瑟拉", "event_type": "agent_created", "payload": {"role_key": "queen"}}
+{"ts": "2026-02-14 12:01:37.596", "run": "ui", "level": "INFO", "agent": "兵蚁_阿瑞", "event_type": "agent_created", "payload": {"role_key": "soldier"}}
+{"ts": "2026-02-14 12:01:37.604", "run": "ui", "level": "INFO", "agent": "工蚁_莱特", "event_type": "agent_created", "payload": {"role_key": "emotion_worker"}}
+{"ts": "2026-02-14 12:01:37.614", "run": "ui", "level": "INFO", "agent": "工蚁_诺瓦", "event_type": "agent_created", "payload": {"role_key": "browser_worker"}}
+{"ts": "2026-02-14 12:01:37.620", "run": "ui", "level": "INFO", "agent": "工蚁_里德", "event_type": "agent_created", "payload": {"role_key": "doc_worker"}}
+{"ts": "2026-02-14 12:01:37.624", "run": "ui", "level": "INFO", "agent": "蚁王_特鲁", "event_type": "heartbeat_register", "payload": {"role_key": "king", "interval_s": 5.0}}
+{"ts": "2026-02-14 12:01:37.624", "run": "ui", "level": "INFO", "agent": "蚁后_瑟拉", "event_type": "heartbeat_register", "payload": {"role_key": "queen", "interval_s": 1.0}}
+{"ts": "2026-02-14 12:01:37.624", "run": "ui", "level": "INFO", "agent": "兵蚁_阿瑞", "event_type": "heartbeat_register", "payload": {"role_key": "soldier", "interval_s": 5.0}}
+{"ts": "2026-02-14 12:01:37.625", "run": "ui", "level": "INFO", "agent": "工蚁_莱特", "event_type": "heartbeat_register", "payload": {"role_key": "emotion_worker", "interval_s": 5.0}}
+{"ts": "2026-02-14 12:01:37.625", "run": "ui", "level": "INFO", "agent": "工蚁_诺瓦", "event_type": "heartbeat_register", "payload": {"role_key": "browser_worker", "interval_s": 5.0}}
+{"ts": "2026-02-14 12:01:37.625", "run": "ui", "level": "INFO", "agent": "工蚁_里德", "event_type": "heartbeat_register", "payload": {"role_key": "doc_worker", "interval_s": 5.0}}
+{"ts": "2026-02-14 12:01:37.625", "run": "ui", "level": "INFO", "agent": "system", "event_type": "update_scheduler_started", "payload": {"roles": ["king", "queen", "soldier", "emotion_worker", "browser_worker", "doc_worker"]}}
+{"ts": "2026-02-14 12:01:37.625", "run": "ui", "level": "INFO", "agent": "system", "event_type": "heartbeat_center_started", "payload": {"check_interval_s": 1.0}}
+{"ts": "2026-02-14 12:01:37.626", "run": "ui", "level": "INFO", "agent": "system", "event_type": "runtime_started", "payload": {"chats": ["main"], "roles": ["king", "queen", "soldier", "emotion_worker", "browser_worker", "doc_worker"]}}
+{"ts": "2026-02-14 12:01:38.126", "run": "ui", "level": "INFO", "agent": "system", "event_type": "vector_store_warmup_start", "payload": {"url": "http://127.0.0.1:8765"}}
+{"ts": "2026-02-14 12:01:38.303", "run": "ui", "level": "INFO", "agent": "工蚁_里德", "event_type": "heartbeat_tick", "payload": {"role_key": "doc_worker", "age": 1, "busy": false}}
+{"ts": "2026-02-14 12:01:38.441", "run": "ui", "level": "WARN", "agent": "system", "event_type": "vector_store_warmup_skip", "payload": {"reason": "service_not_running", "url": "http://127.0.0.1:8765", "detail": "TimeoutError: timed out"}}
+{"ts": "2026-02-14 12:01:38.882", "run": "ui", "level": "INFO", "agent": "蚁后_瑟拉", "event_type": "heartbeat_tick", "payload": {"role_key": "queen", "age": 1, "busy": false}}
+{"ts": "2026-02-14 12:01:39.039", "run": "ui", "level": "INFO", "agent": "蚁王_特鲁", "event_type": "heartbeat_tick", "payload": {"role_key": "king", "age": 1, "busy": false}}
+{"ts": "2026-02-14 12:01:39.300", "run": "ui", "level": "INFO", "agent": "兵蚁_阿瑞", "event_type": "heartbeat_tick", "payload": {"role_key": "soldier", "age": 1, "busy": false}}
+{"ts": "2026-02-14 12:01:39.454", "run": "ui", "level": "INFO", "agent": "工蚁_诺瓦", "event_type": "heartbeat_tick", "payload": {"role_key": "browser_worker", "age": 1, "busy": false}}
+{"ts": "2026-02-14 12:01:39.755", "run": "ui", "level": "INFO", "agent": "工蚁_莱特", "event_type": "heartbeat_tick", "payload": {"role_key": "emotion_worker", "age": 1, "busy": false}}
+{"ts": "2026-02-14 12:01:39.895", "run": "ui", "level": "INFO", "agent": "蚁后_瑟拉", "event_type": "heartbeat_tick", "payload": {"role_key": "queen", "age": 2, "busy": false}}
+{"ts": "2026-02-14 12:01:40.898", "run": "ui", "level": "INFO", "agent": "蚁后_瑟拉", "event_type": "heartbeat_tick", "payload": {"role_key": "queen", "age": 3, "busy": false}}
+{"ts": "2026-02-14 12:01:41.890", "run": "ui", "level": "INFO", "agent": "蚁后_瑟拉", "event_type": "heartbeat_tick", "payload": {"role_key": "queen", "age": 4, "busy": false}}
+{"ts": "2026-02-14 12:01:42.909", "run": "ui", "level": "INFO", "agent": "蚁后_瑟拉", "event_type": "heartbeat_tick", "payload": {"role_key": "queen", "age": 5, "busy": false}}
+{"ts": "2026-02-14 12:01:43.307", "run": "ui", "level": "INFO", "agent": "工蚁_里德", "event_type": "heartbeat_tick", "payload": {"role_key": "doc_worker", "age": 2, "busy": false}}
+{"ts": "2026-02-14 12:01:43.921", "run": "ui", "level": "INFO", "agent": "蚁后_瑟拉", "event_type": "heartbeat_tick", "payload": {"role_key": "queen", "age": 6, "busy": false}}
+{"ts": "2026-02-14 12:01:44.041", "run": "ui", "level": "INFO", "agent": "蚁王_特鲁", "event_type": "heartbeat_tick", "payload": {"role_key": "king", "age": 2, "busy": false}}
+{"ts": "2026-02-14 12:01:44.307", "run": "ui", "level": "INFO", "agent": "兵蚁_阿瑞", "event_type": "heartbeat_tick", "payload": {"role_key": "soldier", "age": 2, "busy": false}}
+{"ts": "2026-02-14 12:01:44.467", "run": "ui", "level": "INFO", "agent": "工蚁_诺瓦", "event_type": "heartbeat_tick", "payload": {"role_key": "browser_worker", "age": 2, "busy": false}}
+{"ts": "2026-02-14 12:01:44.759", "run": "ui", "level": "INFO", "agent": "工蚁_莱特", "event_type": "heartbeat_tick", "payload": {"role_key": "emotion_worker", "age": 2, "busy": false}}
+{"ts": "2026-02-14 12:01:44.935", "run": "ui", "level": "INFO", "agent": "蚁后_瑟拉", "event_type": "heartbeat_tick", "payload": {"role_key": "queen", "age": 7, "busy": false}}
+{"ts": "2026-02-14 12:01:45.941", "run": "ui", "level": "INFO", "agent": "蚁后_瑟拉", "event_type": "heartbeat_tick", "payload": {"role_key": "queen", "age": 8, "busy": false}}
+{"ts": "2026-02-14 12:01:46.945", "run": "ui", "level": "INFO", "agent": "蚁后_瑟拉", "event_type": "heartbeat_tick", "payload": {"role_key": "queen", "age": 9, "busy": false}}
+{"ts": "2026-02-14 12:01:47.956", "run": "ui", "level": "INFO", "agent": "蚁后_瑟拉", "event_type": "heartbeat_tick", "payload": {"role_key": "queen", "age": 10, "busy": false}}
+{"ts": "2026-02-14 12:01:48.303", "run": "ui", "level": "INFO", "agent": "工蚁_里德", "event_type": "heartbeat_tick", "payload": {"role_key": "doc_worker", "age": 3, "busy": false}}
+{"ts": "2026-02-14 12:01:48.974", "run": "ui", "level": "INFO", "agent": "蚁后_瑟拉", "event_type": "heartbeat_tick", "payload": {"role_key": "queen", "age": 11, "busy": false}}
+{"ts": "2026-02-14 12:01:49.053", "run": "ui", "level": "INFO", "agent": "蚁王_特鲁", "event_type": "heartbeat_tick", "payload": {"role_key": "king", "age": 3, "busy": false}}
+{"ts": "2026-02-14 12:01:49.307", "run": "ui", "level": "INFO", "agent": "兵蚁_阿瑞", "event_type": "heartbeat_tick", "payload": {"role_key": "soldier", "age": 3, "busy": false}}
+{"ts": "2026-02-14 12:01:49.472", "run": "ui", "level": "INFO", "agent": "工蚁_诺瓦", "event_type": "heartbeat_tick", "payload": {"role_key": "browser_worker", "age": 3, "busy": false}}
+{"ts": "2026-02-14 12:01:49.768", "run": "ui", "level": "INFO", "agent": "工蚁_莱特", "event_type": "heartbeat_tick", "payload": {"role_key": "emotion_worker", "age": 3, "busy": false}}
+{"ts": "2026-02-14 12:01:49.983", "run": "ui", "level": "INFO", "agent": "蚁后_瑟拉", "event_type": "heartbeat_tick", "payload": {"role_key": "queen", "age": 12, "busy": false}}
+{"ts": "2026-02-14 12:01:50.989", "run": "ui", "level": "INFO", "agent": "蚁后_瑟拉", "event_type": "heartbeat_tick", "payload": {"role_key": "queen", "age": 13, "busy": false}}
+{"ts": "2026-02-14 12:01:51.998", "run": "ui", "level": "INFO", "agent": "蚁后_瑟拉", "event_type": "heartbeat_tick", "payload": {"role_key": "queen", "age": 14, "busy": false}}
+{"ts": "2026-02-14 12:01:53.007", "run": "ui", "level": "INFO", "agent": "蚁后_瑟拉", "event_type": "heartbeat_tick", "payload": {"role_key": "queen", "age": 15, "busy": false}}
+{"ts": "2026-02-14 12:01:53.315", "run": "ui", "level": "INFO", "agent": "工蚁_里德", "event_type": "heartbeat_tick", "payload": {"role_key": "doc_worker", "age": 4, "busy": false}}
+{"ts": "2026-02-14 12:01:54.009", "run": "ui", "level": "INFO", "agent": "蚁后_瑟拉", "event_type": "heartbeat_tick", "payload": {"role_key": "queen", "age": 16, "busy": false}}
+{"ts": "2026-02-14 12:01:54.072", "run": "ui", "level": "INFO", "agent": "蚁王_特鲁", "event_type": "heartbeat_tick", "payload": {"role_key": "king", "age": 4, "busy": false}}
+{"ts": "2026-02-14 12:01:54.320", "run": "ui", "level": "INFO", "agent": "兵蚁_阿瑞", "event_type": "heartbeat_tick", "payload": {"role_key": "soldier", "age": 4, "busy": false}}
+{"ts": "2026-02-14 12:01:54.479", "run": "ui", "level": "INFO", "agent": "工蚁_诺瓦", "event_type": "heartbeat_tick", "payload": {"role_key": "browser_worker", "age": 4, "busy": false}}
+{"ts": "2026-02-14 12:01:54.771", "run": "ui", "level": "INFO", "agent": "工蚁_莱特", "event_type": "heartbeat_tick", "payload": {"role_key": "emotion_worker", "age": 4, "busy": false}}
+{"ts": "2026-02-14 12:01:55.020", "run": "ui", "level": "INFO", "agent": "蚁后_瑟拉", "event_type": "heartbeat_tick", "payload": {"role_key": "queen", "age": 17, "busy": false}}
+{"ts": "2026-02-14 12:01:56.027", "run": "ui", "level": "INFO", "agent": "蚁后_瑟拉", "event_type": "heartbeat_tick", "payload": {"role_key": "queen", "age": 18, "busy": false}}
+{"ts": "2026-02-14 12:01:57.038", "run": "ui", "level": "INFO", "agent": "蚁后_瑟拉", "event_type": "heartbeat_tick", "payload": {"role_key": "queen", "age": 19, "busy": false}}
+{"ts": "2026-02-14 12:01:58.041", "run": "ui", "level": "INFO", "agent": "蚁后_瑟拉", "event_type": "heartbeat_tick", "payload": {"role_key": "queen", "age": 20, "busy": false}}
+{"ts": "2026-02-14 12:01:58.317", "run": "ui", "level": "INFO", "agent": "工蚁_里德", "event_type": "heartbeat_tick", "payload": {"role_key": "doc_worker", "age": 5, "busy": false}}
+{"ts": "2026-02-14 12:01:59.051", "run": "ui", "level": "INFO", "agent": "蚁后_瑟拉", "event_type": "heartbeat_tick", "payload": {"role_key": "queen", "age": 21, "busy": false}}
+{"ts": "2026-02-14 12:01:59.098", "run": "ui", "level": "INFO", "agent": "蚁王_特鲁", "event_type": "heartbeat_tick", "payload": {"role_key": "king", "age": 5, "busy": false}}
+{"ts": "2026-02-14 12:01:59.319", "run": "ui", "level": "INFO", "agent": "兵蚁_阿瑞", "event_type": "heartbeat_tick", "payload": {"role_key": "soldier", "age": 5, "busy": false}}
+{"ts": "2026-02-14 12:01:59.496", "run": "ui", "level": "INFO", "agent": "工蚁_诺瓦", "event_type": "heartbeat_tick", "payload": {"role_key": "browser_worker", "age": 5, "busy": false}}
+{"ts": "2026-02-14 12:01:59.770", "run": "ui", "level": "INFO", "agent": "工蚁_莱特", "event_type": "heartbeat_tick", "payload": {"role_key": "emotion_worker", "age": 5, "busy": false}}
+{"ts": "2026-02-14 12:02:00.062", "run": "ui", "level": "INFO", "agent": "蚁后_瑟拉", "event_type": "heartbeat_tick", "payload": {"role_key": "queen", "age": 22, "busy": false}}
+{"ts": "2026-02-14 12:02:01.069", "run": "ui", "level": "INFO", "agent": "蚁后_瑟拉", "event_type": "heartbeat_tick", "payload": {"role_key": "queen", "age": 23, "busy": false}}
+{"ts": "2026-02-14 12:02:02.085", "run": "ui", "level": "INFO", "agent": "蚁后_瑟拉", "event_type": "heartbeat_tick", "payload": {"role_key": "queen", "age": 24, "busy": false}}
+{"ts": "2026-02-14 12:02:03.091", "run": "ui", "level": "INFO", "agent": "蚁后_瑟拉", "event_type": "heartbeat_tick", "payload": {"role_key": "queen", "age": 25, "busy": false}}
+{"ts": "2026-02-14 12:02:03.316", "run": "ui", "level": "INFO", "agent": "工蚁_里德", "event_type": "heartbeat_tick", "payload": {"role_key": "doc_worker", "age": 6, "busy": false}}
+{"ts": "2026-02-14 12:02:04.108", "run": "ui", "level": "INFO", "agent": "蚁后_瑟拉", "event_type": "heartbeat_tick", "payload": {"role_key": "queen", "age": 26, "busy": false}}
+{"ts": "2026-02-14 12:02:04.110", "run": "ui", "level": "INFO", "agent": "蚁王_特鲁", "event_type": "heartbeat_tick", "payload": {"role_key": "king", "age": 6, "busy": false}}
+{"ts": "2026-02-14 12:02:04.329", "run": "ui", "level": "INFO", "agent": "兵蚁_阿瑞", "event_type": "heartbeat_tick", "payload": {"role_key": "soldier", "age": 6, "busy": false}}
+{"ts": "2026-02-14 12:02:04.503", "run": "ui", "level": "INFO", "agent": "工蚁_诺瓦", "event_type": "heartbeat_tick", "payload": {"role_key": "browser_worker", "age": 6, "busy": false}}
+{"ts": "2026-02-14 12:02:04.729", "run": "ui", "level": "INFO", "agent": "system", "event_type": "update_scheduler_stopped", "payload": {}}
+{"ts": "2026-02-14 12:02:04.729", "run": "ui", "level": "INFO", "agent": "system", "event_type": "heartbeat_center_stopped", "payload": {}}
+{"ts": "2026-02-14 12:02:04.731", "run": "ui", "level": "INFO", "agent": "system", "event_type": "runtime_stopped", "payload": {}}

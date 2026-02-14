@@ -1,0 +1,6 @@
+{"id":"queen_sera","role_key":"queen_sera","name_cn":"蚁后_瑟拉","name_en":"Queen_Sera","level":1,"exp":0,"skills":[],"tools":[],"tags":["queen"]}
+{"id":"king_tru","role_key":"king_tru","name_cn":"蚁王_特鲁","name_en":"King_Tru","level":1,"exp":0,"skills":[],"tools":[],"tags":["king"]}
+{"id":"soldier_ares","role_key":"soldier_ares","name_cn":"兵蚁_阿瑞","name_en":"Soldier_Ares","level":1,"exp":0,"skills":[],"tools":[],"tags":["soldier"]}
+{"id":"worker_light","role_key":"worker_light","name_cn":"工蚁_莱特","name_en":"Worker_Light","level":1,"exp":0,"skills":[],"tools":[],"tags":["worker","emotion"]}
+{"id":"worker_nova","role_key":"worker_nova","name_cn":"工蚁_诺瓦","name_en":"Worker_Nova","level":1,"exp":0,"skills":[],"tools":[],"tags":["worker","browser"]}
+{"id":"worker_reed","role_key":"worker_reed","name_cn":"工蚁_里德","name_en":"Worker_Reed","level":1,"exp":0,"skills":[],"tools":[],"tags":["worker","doc"]}

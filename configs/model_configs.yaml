@@ -1,0 +1,26 @@
+default_provider: llm
+
+llm:
+  # llm 段只用于对话模型加载（LLM 只读取这里的配置）
+  model_name: glm-4.7
+  api_key_env: DASHSCOPE_API_KEY
+  base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+  stream: true
+  timeout_s: 120.0
+  include_thinking: false
+
+embedding:
+  #向量模型只用qwen3-vl-embedding
+  # embedding 段只用于向量模型加载（Embedding 只读取这里的配置）
+  model_name: qwen3-vl-embedding
+  api_key_env: DASHSCOPE_API_KEY
+  base_url: https://dashscope.aliyuncs.com/api/v1
+  embedding_dims: 2560
+
+multimodal_embedding:
+  #向量模型只用qwen3-vl-embedding
+  # multimodal_embedding 段只用于多模态嵌入（不参与向量库）
+  model_name: qwen3-vl-embedding
+  api_key_env: DASHSCOPE_API_KEY
+  base_url: https://dashscope.aliyuncs.com/api/v1
+  embedding_dims: 2560

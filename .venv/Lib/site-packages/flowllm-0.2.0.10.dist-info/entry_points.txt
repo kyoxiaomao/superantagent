@@ -1,0 +1,2 @@
+[console_scripts]
+flowllm = flowllm.main:main

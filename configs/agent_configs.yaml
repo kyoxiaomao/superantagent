@@ -1,0 +1,78 @@
+king_tru:
+  name: 蚁王_特鲁
+  max_iters: 8
+  model_provider: llm
+  heartbeat:
+    enabled: true
+    interval_s: 5.0
+    idle_no_increment_s: 0.0
+    topic_cooldown_s: 180.0
+    topic_active_s: 300.0
+    topic_decision_min_gap_s: 30.0
+    topic_turn_interval_s: 4.0
+    history_window_n: 30
+queen_sera:
+  name: 蚁后_瑟拉
+  max_iters: 8
+  model_provider: llm
+  heartbeat:
+    enabled: true
+    interval_s: 1.0
+    idle_no_increment_s: 0.0
+    topic_cooldown_s: 180.0
+    topic_active_s: 300.0
+    topic_decision_min_gap_s: 30.0
+    topic_turn_interval_s: 4.0
+    history_window_n: 30
+soldier_ares:
+  name: 兵蚁_阿瑞
+  max_iters: 6
+  model_provider: llm
+  heartbeat:
+    enabled: true
+    interval_s: 5.0
+    idle_no_increment_s: 0.0
+    topic_cooldown_s: 180.0
+    topic_active_s: 300.0
+    topic_decision_min_gap_s: 30.0
+    topic_turn_interval_s: 4.0
+    history_window_n: 30
+worker_light:
+  name: 工蚁_莱特
+  max_iters: 6
+  model_provider: llm
+  heartbeat:
+    enabled: true
+    interval_s: 5.0
+    idle_no_increment_s: 0.0
+    topic_cooldown_s: 180.0
+    topic_active_s: 300.0
+    topic_decision_min_gap_s: 30.0
+    topic_turn_interval_s: 4.0
+    history_window_n: 30
+worker_nova:
+  name: 工蚁_诺瓦
+  max_iters: 8
+  model_provider: llm
+  heartbeat:
+    enabled: true
+    interval_s: 5.0
+    idle_no_increment_s: 0.0
+    topic_cooldown_s: 180.0
+    topic_active_s: 300.0
+    topic_decision_min_gap_s: 30.0
+    topic_turn_interval_s: 4.0
+    history_window_n: 30
+worker_reed:
+  name: 工蚁_里德
+  max_iters: 8
+  model_provider: llm
+  heartbeat:
+    enabled: true
+    interval_s: 5.0
+    idle_no_increment_s: 0.0
+    topic_cooldown_s: 180.0
+    topic_active_s: 300.0
+    topic_decision_min_gap_s: 30.0
+    topic_turn_interval_s: 4.0
+    history_window_n: 30
