@@ -1,12 +1,1 @@
-{"action": "update_start", "role_key": "queen_sera", "apply_runtime": true, "prompt_len": 1122, "prompt_sha256": "ecc391cb8d72f299153cd9034c1447ef56788caa48da3dc09adc2a81d69a673b", "ts": "2026-02-15T01:56:57.586", "source": "prompt_editor"}
-{"action": "persisted", "role_key": "queen_sera", "ok": true, "ts": "2026-02-15T01:56:57.599", "source": "prompt_editor"}
-{"action": "apply_runtime_attempt", "role_key": "queen_sera", "ts": "2026-02-15T01:56:57.599", "source": "prompt_editor"}
-{"action": "verify", "role_key": "queen_sera", "persisted": true, "applied": true, "runtime_contains": true, "ok": true, "runtime_len": 1409, "runtime_sha256": "b14b530ac3b954177cccd4c2bb79a11e7197effc92fdf8db890bbee517ecaa40", "ts": "2026-02-15T01:56:57.612", "source": "prompt_editor"}
-{"action": "update_start", "role_key": "queen_sera", "apply_runtime": true, "prompt_len": 342, "prompt_sha256": "7501a40330aa83bfd5e4206684cf88a0d8c95bbed2ca7ca334295441b57b6ad0", "ts": "2026-02-15T01:59:51.163", "source": "prompt_editor"}
-{"action": "persisted", "role_key": "queen_sera", "ok": true, "ts": "2026-02-15T01:59:51.176", "source": "prompt_editor"}
-{"action": "apply_runtime_attempt", "role_key": "queen_sera", "ts": "2026-02-15T01:59:51.176", "source": "prompt_editor"}
-{"action": "verify", "role_key": "queen_sera", "persisted": true, "applied": true, "runtime_contains": true, "ok": true, "runtime_len": 629, "runtime_sha256": "7014baa251bc3b50725a23883706b4b6d478ec44b52bbe3be2bd6011a354a20b", "ts": "2026-02-15T01:59:51.189", "source": "prompt_editor"}
-{"action": "update_start", "role_key": "queen_sera", "apply_runtime": true, "prompt_len": 499, "prompt_sha256": "aea040dcb12d514ac46ff0997f2cfb9d629c5a84374b73a323d89ff4f22aebe5", "ts": "2026-02-15T02:02:49.588", "source": "prompt_editor"}
-{"action": "persisted", "role_key": "queen_sera", "ok": true, "ts": "2026-02-15T02:02:49.600", "source": "prompt_editor"}
-{"action": "apply_runtime_attempt", "role_key": "queen_sera", "ts": "2026-02-15T02:02:49.601", "source": "prompt_editor"}
-{"action": "verify", "role_key": "queen_sera", "persisted": true, "applied": true, "runtime_contains": true, "ok": true, "runtime_len": 786, "runtime_sha256": "197435302fb3aad8f848ac2bfee3f8ac6b27fd866f43dac6561c1a173887d191", "ts": "2026-02-15T02:02:49.614", "source": "prompt_editor"}
+{"action": "read", "role_key": "queen_sera", "ok": true, "prompt_len": 499, "prompt_sha256": "aea040dcb12d514ac46ff0997f2cfb9d629c5a84374b73a323d89ff4f22aebe5", "ts": "2026-02-15T10:05:04.734", "source": "prompt_editor"}
